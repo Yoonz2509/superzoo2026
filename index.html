@@ -1388,14 +1388,30 @@ function renderBoothSummary(){
     const wallCols=p.walls.map(w=>{
       const items=w.slots.filter(s=>s.name&&s.cat!=='empty');
       return `<div class="bsum-wall-col">
-        <div class="bsum-wall-title">${w.name}</div>
+        <div class="bsum-wall-title">
+          <input style="font-size:12px;font-weight:600;color:var(--text);background:transparent;border:none;border-bottom:1.5px solid transparent;outline:none;width:100%;font-family:inherit;padding:0 0 2px 0;cursor:pointer" 
+            value="${w.name}" 
+            title="Click to rename"
+            onfocus="this.style.borderBottomColor='var(--accent)'"
+            onblur="this.style.borderBottomColor='transparent';renameWall('${w.id}',this.value)"
+            onkeydown="if(event.key==='Enter')this.blur()"
+          />
+        </div>
         ${items.length
           ?items.map(s=>`<div class="bsum-item"><div class="bsum-dot" style="background:${BDOTCOLOR[s.cat]||'#aaa'}"></div>${s.name}</div>`).join('')
           :`<div style="font-size:12px;color:var(--text3)">Empty</div>`}
       </div>`;
     }).join('');
     return `<div class="bsum-pillar">
-      <div class="bsum-pillar-header"><i class="ti ti-box" style="font-size:14px"></i>${p.name} <span style="font-weight:400;opacity:.7">· ${p.walls.length} walls</span></div>
+      <div class="bsum-pillar-header"><i class="ti ti-box" style="font-size:14px"></i>
+        <input style="font-size:13px;font-weight:600;color:var(--accent);background:transparent;border:none;border-bottom:1.5px solid transparent;outline:none;font-family:inherit;padding:0 0 1px 0;cursor:pointer;min-width:80px"
+          value="${p.name}"
+          onfocus="this.style.borderBottomColor='var(--blue)'"
+          onblur="this.style.borderBottomColor='transparent';renamePillar('${p.id}',this.value)"
+          onkeydown="if(event.key==='Enter')this.blur()"
+        />
+        <span style="font-weight:400;opacity:.7">· ${p.walls.length} walls</span>
+      </div>
       <div class="bsum-walls-grid">${wallCols}</div>
     </div>`;
   }).join('')+`</div>`;
