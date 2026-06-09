@@ -289,7 +289,38 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
 .slot.has-item.cat-product{background:var(--green-bg);border:1.5px solid var(--green-border)}
 .slot.has-item.cat-video{background:var(--amber-bg);border:1.5px solid var(--amber-border)}
 .slot.has-item.cat-graphic{background:#faf5ff;border:1.5px solid #ddd6fe}
-.slot.has-item.cat-showcase{background:var(--red-bg);border:1.5px solid var(--red-border)}
+.slot.has-item.cat-showcase{background:#fff7ed;border:1.5px solid #fed7aa}
+.slot.has-item.cat-fixture{background:#eef2ff;border:1.5px solid #c7d2fe}
+.slot.has-item.cat-door{background:var(--red-bg);border:1.5px solid var(--red-border)}
+.booth-blueprint{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1rem;margin-bottom:1.25rem;box-shadow:var(--shadow)}
+.blueprint-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+.blueprint-title{font-size:13px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:7px}
+.blueprint-note{font-size:12px;color:var(--text3);font-weight:500}
+.blueprint-grid{display:grid;grid-template-columns:repeat(2,minmax(280px,1fr));gap:14px}
+.tower-map{border:1px solid var(--border);background:#fbfcfe;border-radius:var(--radius);padding:12px;min-height:270px;display:flex;flex-direction:column;gap:10px}
+.tower-map-title{font-size:13px;font-weight:700;color:var(--accent);display:flex;align-items:center;justify-content:space-between;gap:8px}
+.tower-map-title span:last-child{font-size:11px;font-weight:600;color:var(--text3)}
+.tower-walls-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.wall-map-section{border:1px solid var(--border);background:var(--surface);border-radius:var(--radius);padding:9px;display:flex;flex-direction:column;gap:7px}
+.wall-map-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.wall-map-name{font-size:12px;font-weight:800;color:var(--text)}
+.wall-map-count{font-size:10px;font-weight:700;color:var(--text3)}
+.wall-map-cells{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.tower-row{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.tower-row.compact{grid-template-columns:repeat(3,1fr)}
+.map-cell{border:1.5px solid var(--border);border-radius:6px;background:var(--surface);min-height:56px;padding:7px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:2px;cursor:pointer;transition:all .15s}
+.map-cell:hover{border-color:var(--accent);box-shadow:0 2px 8px rgba(37,99,235,.14);transform:translateY(-1px)}
+.map-cell.board{background:var(--accent-bg);border-color:var(--accent-border)}
+.map-cell.fixture{background:#eef2ff;border-color:#c7d2fe}
+.map-cell.product{background:var(--green-bg);border-color:var(--green-border)}
+.map-cell.video{background:var(--amber-bg);border-color:var(--amber-border)}
+.map-cell.door{background:var(--red-bg);border-color:var(--red-border)}
+.map-cell-name{font-size:12px;font-weight:700;color:var(--text);line-height:1.2}
+.map-cell-meta{font-size:10px;color:var(--text2);font-weight:600;line-height:1.2}
+.map-divider{height:1px;background:var(--border);margin:2px 0}
+@media(max-width:900px){.tower-walls-grid{grid-template-columns:1fr}}
+@media(max-width:760px){.blueprint-grid{grid-template-columns:1fr}.tower-row,.tower-row.compact{grid-template-columns:repeat(2,1fr)}}
+
 .slot-empty-icon{font-size:18px;color:var(--text3)}
 .slot-empty-text{font-size:11px;color:var(--text3);margin-top:3px;font-weight:500}
 .slot-name{font-size:12px;font-weight:600;color:var(--text);line-height:1.4}
@@ -452,19 +483,21 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
 <main class="page" id="page-booth">
   <div class="hero">
     <div>
-      <div class="hero-eyebrow">Booth Planner</div>
-      <h1>Booth Wall Layout</h1>
-      <div class="hero-sub">Organize walls by pillar — add, rename, and configure each one freely</div>
+      <div class="hero-eyebrow">Booth Planner / PDF Reference</div>
+      <h1>Gooby Booth Wall Guide</h1>
+      <div class="hero-sub">Tower 1 is split into A-D Wall tabs, and Tower 2 is split into E-H Wall tabs for editable booth planning</div>
     </div>
   </div>
 
   <div class="legend">
-    <div class="leg-item"><div class="leg-dot" style="background:var(--accent-bg);border:1.5px solid var(--accent-border)"></div>Hero / Branding</div>
-    <div class="leg-item"><div class="leg-dot" style="background:var(--green-bg);border:1.5px solid var(--green-border)"></div>Product display</div>
-    <div class="leg-item"><div class="leg-dot" style="background:var(--amber-bg);border:1.5px solid var(--amber-border)"></div>Video / Screen</div>
-    <div class="leg-item"><div class="leg-dot" style="background:#faf5ff;border:1.5px solid #ddd6fe"></div>Graphics / Print</div>
-    <div class="leg-item"><div class="leg-dot" style="background:var(--red-bg);border:1.5px solid var(--red-border)"></div>Showcase</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--accent-bg);border:1.5px solid var(--accent-border)"></div>Board / Graphic</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--green-bg);border:1.5px solid var(--green-border)"></div>Product / Mannequin</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--amber-bg);border:1.5px solid var(--amber-border)"></div>TV / Screen</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#eef2ff;border:1.5px solid #c7d2fe"></div>Fixture / Light / Hanger</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--red-bg);border:1.5px solid var(--red-border)"></div>Door / Access</div>
   </div>
+
+  <div id="boothBlueprint"></div>
 
   <!-- PILLAR TABS + ADD PILLAR -->
   <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:1rem">
@@ -540,6 +573,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
         <option value="video">Video / Screen</option>
         <option value="graphic">Graphics / Print</option>
         <option value="showcase">Showcase</option>
+        <option value="fixture">Fixture / Light / Hanger</option>
+        <option value="door">Door / Access</option>
         <option value="empty">Empty</option>
       </select>
     </div>
@@ -622,20 +657,20 @@ function savePillars() {
   _lastSaveTime = Date.now();
   clearTimeout(_saveTimer);
   _saveTimer = setTimeout(async () => {
-    await kvSet('pillars', pillars);
+    await kvSet(BOOTH_STORAGE_KEY, pillars);
     showToast();
   }, 600);
 }
 
 async function loadAllData() {
-  const [a, p] = await Promise.all([kvGet('assets'), kvGet('pillars')]);
+  const [a, p] = await Promise.all([kvGet('assets'), kvGet(BOOTH_STORAGE_KEY)]);
   return { assets: a, pillars: p };
 }
 
 function startPolling() {
   _pollTimer = setInterval(async () => {
     if (Date.now() - _lastSaveTime < 3000) return;
-    const [remoteAssets, remotePillars] = await Promise.all([kvGet('assets'), kvGet('pillars')]);
+    const [remoteAssets, remotePillars] = await Promise.all([kvGet('assets'), kvGet(BOOTH_STORAGE_KEY)]);
     let changed = false;
     if (remoteAssets && JSON.stringify(remoteAssets) !== JSON.stringify(assets)) {
       assets = remoteAssets;
@@ -662,6 +697,7 @@ function startPolling() {
     if (remotePillars && JSON.stringify(remotePillars) !== JSON.stringify(pillars)) {
       pillars = remotePillars;
       renderPillarTabs();
+      renderBoothBlueprint();
       renderPillarDetail();
       renderWallContent();
       renderBoothSummary();
@@ -698,6 +734,7 @@ async function initApp() {
   document.getElementById('loadingOverlay').style.display = 'none';
   renderGrid();
   renderPillarTabs();
+  renderBoothBlueprint();
   renderPillarDetail();
   renderWallContent();
   renderBoothSummary();
@@ -1103,66 +1140,127 @@ function confirmAdd(){
 }
 
 /* ════════ BOOTH LAYOUT ════════ */
-const BCATLABEL={hero:'Hero / Branding',product:'Product display',video:'Video / Screen',graphic:'Graphics / Print',showcase:'Showcase',empty:'Empty'};
-const BDOTCOLOR={hero:'#2563eb',product:'#16a34a',video:'#d97706',graphic:'#7c3aed',showcase:'#dc2626',empty:'#c4c9d4'};
+const BCATLABEL={hero:'Board / Graphic',product:'Product / Mannequin',video:'TV / Screen',graphic:'Print Detail',showcase:'Display Showcase',fixture:'Fixture / Light / Hanger',door:'Door / Access',empty:'Empty'};
+const BDOTCOLOR={hero:'#2563eb',product:'#16a34a',video:'#d97706',graphic:'#7c3aed',showcase:'#ea580c',fixture:'#4f46e5',door:'#dc2626',empty:'#c4c9d4'};
 const BSTATDOT={done:'ss-done',wip:'ss-wip',todo:'ss-todo'};
+const BOOTH_STORAGE_KEY='pillars_pdf_wall_guide_v3_wall_tabs';
 
 const DEFAULT_PILLARS=[
-  {id:'p1',name:'Pillar A',walls:[
-    {id:'p1w1',name:'Front wall',cols:3,rows:2,slots:[
-      {name:'Brand logo banner',cat:'hero',status:'wip',note:'Full back wall'},
-      {name:'',cat:'empty',status:'todo',note:''},
-      {name:'Brand logo banner',cat:'hero',status:'wip',note:''},
-      {name:'New product A',cat:'product',status:'todo',note:''},
-      {name:'LED screen',cat:'video',status:'todo',note:'55"'},
-      {name:'New product B',cat:'product',status:'todo',note:''},
+  {id:'tower1',name:'Tower 1',walls:[
+    {id:'t1-a-wall',name:'A Wall',cols:3,rows:2,slots:[
+      {name:'Board A2',cat:'hero',status:'wip',note:'50 in x 19 in'},
+      {name:'TV',cat:'video',status:'todo',note:'Screen position'},
+      {name:'Light',cat:'fixture',status:'todo',note:'Top light'},
+      {name:'Hanger',cat:'fixture',status:'todo',note:'PDF: Hnager'},
+      {name:'Mannequin',cat:'product',status:'todo',note:'Apparel display'},
+      {name:'5 F / 4 F spacing',cat:'fixture',status:'todo',note:'Measurement reference'}
     ]},
-    {id:'p1w2',name:'Left wall',cols:2,rows:2,slots:[
-      {name:'Showcase unit',cat:'showcase',status:'todo',note:''},
-      {name:'Flyer rack',cat:'graphic',status:'todo',note:''},
-      {name:'Product C',cat:'product',status:'todo',note:''},
-      {name:'Product D',cat:'product',status:'todo',note:''},
+    {id:'t1-b-wall',name:'B Wall',cols:3,rows:2,slots:[
+      {name:'Board B2',cat:'hero',status:'wip',note:'16 in x 12 in'},
+      {name:'Hanger',cat:'fixture',status:'todo',note:'Product hanging rail'},
+      {name:'Light',cat:'fixture',status:'todo',note:'Wall light'},
+      {name:'Mannequin',cat:'product',status:'todo',note:'Apparel display'},
+      {name:'Door',cat:'door',status:'todo',note:'Access opening'},
+      {name:'4 F spacing',cat:'fixture',status:'todo',note:'Measurement reference'}
     ]},
-    {id:'p1w3',name:'Right wall',cols:2,rows:1,slots:[
-      {name:'Product E',cat:'product',status:'todo',note:''},
-      {name:'Video loop',cat:'video',status:'todo',note:''},
+    {id:'t1-c-wall',name:'C Wall',cols:3,rows:2,slots:[
+      {name:'Board C2',cat:'hero',status:'wip',note:'28 in x 12 in'},
+      {name:'TV',cat:'video',status:'todo',note:'Screen position'},
+      {name:'Light',cat:'fixture',status:'todo',note:'Wall light'},
+      {name:'Hanger',cat:'fixture',status:'todo',note:'PDF: Hnager'},
+      {name:'Mannequin',cat:'product',status:'todo',note:'Apparel display'},
+      {name:'4 F spacing',cat:'fixture',status:'todo',note:'Measurement reference'}
     ]},
-    {id:'p1w4',name:'Back wall',cols:3,rows:1,slots:[
-      {name:'',cat:'empty',status:'todo',note:''},
-      {name:'',cat:'empty',status:'todo',note:''},
-      {name:'',cat:'empty',status:'todo',note:''},
-    ]},
+    {id:'t1-d-wall',name:'D Wall',cols:3,rows:2,slots:[
+      {name:'Board D2',cat:'hero',status:'wip',note:'27 in x 18 in'},
+      {name:'TV',cat:'video',status:'todo',note:'Screen position'},
+      {name:'Light',cat:'fixture',status:'todo',note:'Wall light'},
+      {name:'Hanger',cat:'fixture',status:'todo',note:'Product hanging rail'},
+      {name:'Mannequin',cat:'product',status:'todo',note:'Apparel display'},
+      {name:'4 F spacing',cat:'fixture',status:'todo',note:'Measurement reference'}
+    ]}
   ]},
-  {id:'p2',name:'Pillar B',walls:[
-    {id:'p2w1',name:'Front wall',cols:3,rows:1,slots:[
-      {name:'',cat:'empty',status:'todo',note:''},
-      {name:'',cat:'empty',status:'todo',note:''},
-      {name:'',cat:'empty',status:'todo',note:''},
+  {id:'tower2',name:'Tower 2',walls:[
+    {id:'t2-e-wall',name:'E Wall',cols:3,rows:2,slots:[
+      {name:'Board E2',cat:'hero',status:'wip',note:'20 in x 11 in'},
+      {name:'Mannequin',cat:'product',status:'todo',note:'Apparel display'},
+      {name:'Light',cat:'fixture',status:'todo',note:'Wall light'},
+      {name:'Door',cat:'door',status:'todo',note:'Access opening'},
+      {name:'3 F / 4 F spacing',cat:'fixture',status:'todo',note:'Measurement reference'},
+      {name:'Mannequin',cat:'product',status:'todo',note:'Apparel display'}
     ]},
-    {id:'p2w2',name:'Left wall',cols:2,rows:1,slots:[
-      {name:'',cat:'empty',status:'todo',note:''},
-      {name:'',cat:'empty',status:'todo',note:''},
+    {id:'t2-f-wall',name:'F Wall',cols:3,rows:2,slots:[
+      {name:'Board F2',cat:'hero',status:'wip',note:'50 in x 14 in'},
+      {name:'Light',cat:'fixture',status:'todo',note:'Light'},
+      {name:'5 F',cat:'fixture',status:'todo',note:'Spacing reference'},
+      {name:'4 F spacing',cat:'fixture',status:'todo',note:'Measurement reference'},
+      {name:'Mannequin',cat:'product',status:'todo',note:'Apparel display'},
+      {name:'Light',cat:'fixture',status:'todo',note:'Wall light'}
     ]},
-    {id:'p2w3',name:'Right wall',cols:2,rows:1,slots:[
-      {name:'',cat:'empty',status:'todo',note:''},
-      {name:'',cat:'empty',status:'todo',note:''},
+    {id:'t2-g-wall',name:'G Wall',cols:3,rows:2,slots:[
+      {name:'Board G2',cat:'hero',status:'wip',note:'17 in x 13 in'},
+      {name:'Hanger',cat:'fixture',status:'todo',note:'PDF: Hnager'},
+      {name:'TV',cat:'video',status:'todo',note:'Screen position'},
+      {name:'3 F / 4 F spacing',cat:'fixture',status:'todo',note:'Measurement reference'},
+      {name:'Mannequin',cat:'product',status:'todo',note:'Apparel display'},
+      {name:'Light',cat:'fixture',status:'todo',note:'Wall light'}
     ]},
-    {id:'p2w4',name:'Back wall',cols:3,rows:1,slots:[
-      {name:'',cat:'empty',status:'todo',note:''},
-      {name:'',cat:'empty',status:'todo',note:''},
-      {name:'',cat:'empty',status:'todo',note:''},
-    ]},
+    {id:'t2-h-wall',name:'H Wall',cols:3,rows:2,slots:[
+      {name:'Board H2',cat:'hero',status:'wip',note:'17 in x 9 in'},
+      {name:'Hanger',cat:'fixture',status:'todo',note:'PDF: Hnager'},
+      {name:'TV',cat:'video',status:'todo',note:'Screen position'},
+      {name:'Light',cat:'fixture',status:'todo',note:'Wall light'},
+      {name:'4 F spacing',cat:'fixture',status:'todo',note:'Measurement reference'},
+      {name:'Mannequin',cat:'product',status:'todo',note:'Apparel display'}
+    ]}
   ]},
 ];
 
-
-let pillars = DEFAULT_PILLARS.map(p => ({...p}));
+let pillars = cloneDefaultPillars();
 
 let activePillarId=pillars[0]?.id||null;
 let activeWallId=pillars[0]?.walls[0]?.id||null;
 let _sWallId=null,_sIdx=null;
 
 function emptySlot(){return{name:'',cat:'empty',status:'todo',note:''};}
+function cloneDefaultPillars(){return JSON.parse(JSON.stringify(DEFAULT_PILLARS));}
+function cellType(s){return s.cat==='hero'?'board':s.cat==='fixture'?'fixture':s.cat==='door'?'door':s.cat==='video'?'video':s.cat==='product'?'product':'board';}
+function renderBoothBlueprint(){
+  const el=document.getElementById('boothBlueprint');
+  if(!el)return;
+  el.innerHTML=`<div class="booth-blueprint">
+    <div class="blueprint-head">
+      <div class="blueprint-title"><i class="ti ti-map-2"></i> PDF-style quick map</div>
+      <div class="blueprint-note">Each tower is divided by editable A/B/C/D-style wall tabs</div>
+    </div>
+    <div class="blueprint-grid">${pillars.map(p=>{
+      return `<div class="tower-map">
+        <div class="tower-map-title"><span>${p.name}</span><span>${p.walls.length} editable walls</span></div>
+        <div class="tower-walls-grid">${p.walls.map(w=>blueprintWall(w)).join('')}</div>
+      </div>`;
+    }).join('')}</div>
+  </div>`;
+}
+function blueprintWall(w){
+  const items=w.slots.map((s,i)=>({...s,wallId:w.id,slot:i,wallName:w.name})).filter(s=>s.name&&s.cat!=='empty');
+  return `<section class="wall-map-section">
+    <div class="wall-map-head">
+      <span class="wall-map-name">${w.name}</span>
+      <span class="wall-map-count">${items.length} items</span>
+    </div>
+    <div class="wall-map-cells">${items.map(s=>blueprintCell(s)).join('')}</div>
+  </section>`;
+}
+function blueprintCell(s){
+  return `<button class="map-cell ${cellType(s)}" onclick="selectBlueprintSlot('${s.wallId}',${s.slot})" title="${s.wallName}">
+    <span class="map-cell-name">${s.name}</span>
+    <span class="map-cell-meta">${s.note||BCATLABEL[s.cat]||''}</span>
+  </button>`;
+}
+function selectBlueprintSlot(wid,idx){
+  const p=pillars.find(x=>x.walls.some(w=>w.id===wid));
+  if(p){activePillarId=p.id;activeWallId=wid;renderPillarTabs();renderPillarDetail();renderWallContent();openSlotModal(wid,idx);}
+}
 function padSlots(w){const n=w.cols*w.rows;while(w.slots.length<n)w.slots.push(emptySlot());}
 function getActivePillar(){return pillars.find(p=>p.id===activePillarId);}
 function getActiveWall(){const p=getActivePillar();return p?.walls.find(w=>w.id===activeWallId);}
@@ -1181,6 +1279,7 @@ function selectPillar(pid){
   const p=pillars.find(x=>x.id===pid);
   activeWallId=p?.walls[0]?.id||null;
   renderPillarTabs();
+  renderBoothBlueprint();
   renderPillarDetail();
   renderWallContent();
   renderBoothSummary();
@@ -1209,12 +1308,12 @@ function deletePillar(pid){
     activeWallId=pillars[0].walls[0]?.id||null;
   }
   savePillars();
-  renderPillarTabs();renderPillarDetail();renderWallContent();renderBoothSummary();
+  renderPillarTabs();renderBoothBlueprint();renderPillarDetail();renderWallContent();renderBoothSummary();
 }
 
 function renamePillar(pid,name){
   const p=pillars.find(x=>x.id===pid);
-  if(p&&name.trim()){p.name=name.trim();savePillars();renderPillarTabs();renderBoothSummary();}
+  if(p&&name.trim()){p.name=name.trim();savePillars();renderPillarTabs();renderBoothBlueprint();renderBoothSummary();}
 }
 
 /* ── PILLAR DETAIL BAR + WALL TABS ── */
@@ -1297,7 +1396,7 @@ function deleteWall(wid){
 function renameWall(wid,name){
   const p=getActivePillar();
   const w=p?.walls.find(x=>x.id===wid);
-  if(w&&name.trim()){w.name=name.trim();savePillars();renderWallTabs();renderBoothSummary();}
+  if(w&&name.trim()){w.name=name.trim();savePillars();renderWallTabs();renderBoothBlueprint();renderBoothSummary();}
 }
 
 function resizeWall(wid,prop,val){
@@ -1306,7 +1405,7 @@ function resizeWall(wid,prop,val){
   if(!w)return;
   w[prop]=Math.max(1,Math.min(prop==='cols'?6:5,parseInt(val)||1));
   padSlots(w);
-  savePillars();renderWallContent();renderBoothSummary();
+  savePillars();renderBoothBlueprint();renderWallContent();renderBoothSummary();
 }
 
 /* ── WALL CONTENT ── */
@@ -1330,7 +1429,7 @@ function renderWallContent(){
       const idx=r*w.cols+c;
       const s=w.slots[idx]||emptySlot();
       const has=s.name&&s.cat!=='empty';
-      html+=`<div class="slot${has?' has-item':''} cat-${s.cat}" onclick="openSlotModal('${w.id}',${idx})">
+      html+=`<div class="slot${has?' has-item':''} cat-${s.cat}" data-wall-id="${w.id}" data-slot-idx="${idx}" onclick="openSlotModal('${w.id}',${idx})">
         <button class="slot-del" onclick="event.stopPropagation();clearSlot('${w.id}',${idx})" title="Clear"><i class="ti ti-x"></i></button>
         ${has
           ?`<div class="slot-status ${BSTATDOT[s.status]||'ss-todo'}"></div>
@@ -1372,14 +1471,14 @@ function saveSlot(){
     status:document.getElementById('sm-status').value,
     note:document.getElementById('sm-note').value.trim(),
   };
-  savePillars();closeSlotModal();renderWallContent();renderBoothSummary();
+  savePillars();closeSlotModal();renderBoothBlueprint();renderWallContent();renderBoothSummary();
 }
 
 function clearSlot(wid,idx){
   const p=getActivePillar();
   const w=p?.walls.find(x=>x.id===wid);
   if(w)w.slots[idx]=emptySlot();
-  savePillars();renderWallContent();renderBoothSummary();
+  savePillars();renderBoothBlueprint();renderWallContent();renderBoothSummary();
 }
 
 /* ── SUMMARY ── */
