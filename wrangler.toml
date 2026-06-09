@@ -1,0 +1,6 @@
+name = "superzoo2026"
+compatibility_date = "2024-01-01"
+
+[[kv_namespaces]]
+binding = "SUPERZOO_KV"
+id = "REPLACE_WITH_YOUR_KV_ID"

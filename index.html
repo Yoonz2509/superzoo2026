@@ -1,0 +1,1380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>2026 SUPERZOO — Asset Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" />
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f5f6f8;
+  --bg2:#ffffff;
+  --surface:#ffffff;
+  --surface2:#f0f2f5;
+  --border:#d8dce4;
+  --border2:#c4c9d4;
+  --text:#111318;
+  --text2:#4a5060;
+  --text3:#8b90a0;
+  --accent:#2563eb;
+  --accent-bg:#eff4ff;
+  --accent-border:#bfcfff;
+  --green:#16a34a;
+  --green-bg:#f0fdf4;
+  --green-border:#bbf7d0;
+  --amber:#d97706;
+  --amber-bg:#fffbeb;
+  --amber-border:#fde68a;
+  --blue:#2563eb;
+  --blue-bg:#eff4ff;
+  --blue-border:#bfcfff;
+  --red:#dc2626;
+  --red-bg:#fef2f2;
+  --red-border:#fecaca;
+  --gray-bg:#f5f6f8;
+  --gray-border:#d8dce4;
+  --radius:8px;
+  --radius-lg:12px;
+  --shadow:0 1px 3px rgba(0,0,0,0.08),0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md:0 4px 12px rgba(0,0,0,0.08),0 2px 4px rgba(0,0,0,0.04);
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.6;min-height:100vh}
+
+/* TOPBAR */
+.topbar{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 2rem;height:56px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.topbar-left{display:flex;align-items:center;gap:12px}
+.topbar-logo{font-weight:600;font-size:15px;color:var(--text);letter-spacing:-0.02em}
+.topbar-badge{font-size:11px;font-weight:500;background:var(--accent-bg);color:var(--accent);border:1px solid var(--accent-border);padding:2px 8px;border-radius:20px}
+.topbar-nav{display:flex;gap:4px}
+.nav-btn{font-size:13px;font-weight:500;padding:6px 16px;border-radius:var(--radius);border:none;background:none;color:var(--text2);cursor:pointer;transition:all .15s}
+.nav-btn:hover{background:var(--surface2);color:var(--text)}
+.nav-btn.active{background:var(--accent);color:#fff}
+.countdown-pill{font-size:12px;font-weight:500;background:var(--accent-bg);border:1px solid var(--accent-border);color:var(--accent);padding:5px 14px;border-radius:20px;display:flex;align-items:center;gap:6px}
+.countdown-num{font-size:15px;font-weight:600}
+
+/* PAGES */
+.page{display:none;padding:2rem;max-width:1100px;margin:0 auto}
+.page.active{display:block}
+
+/* HERO */
+.hero{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.75rem 2rem;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap;box-shadow:var(--shadow)}
+.hero-eyebrow{font-size:11px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px}
+.hero h1{font-size:22px;font-weight:600;color:var(--text);line-height:1.3;margin-bottom:4px}
+.hero-sub{font-size:13px;color:var(--text2)}
+.hero-right{text-align:right}
+.hero-days{font-size:36px;font-weight:700;color:var(--text);line-height:1}
+.hero-days-label{font-size:12px;color:var(--text3);margin-top:2px}
+
+/* STATS */
+.stats-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-bottom:1.5rem}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.25rem;box-shadow:var(--shadow)}
+.stat-val{font-size:28px;font-weight:700;line-height:1;margin-bottom:3px}
+.stat-lbl{font-size:12px;color:var(--text2);font-weight:500}
+
+/* SECTION HEADER */
+.sec-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:8px}
+.sec-title{font-size:15px;font-weight:600;color:var(--text);display:flex;align-items:center;gap:7px}
+.sec-title i{font-size:16px;color:var(--text3)}
+
+/* BUTTONS */
+.btn{font-size:13px;font-weight:500;padding:7px 14px;border-radius:var(--radius);border:1px solid var(--border2);background:var(--surface);color:var(--text2);cursor:pointer;display:inline-flex;align-items:center;gap:5px;transition:all .15s;font-family:inherit}
+.btn:hover{background:var(--surface2);color:var(--text);border-color:var(--border2)}
+.btn-primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.btn-primary:hover{background:#1d4ed8;color:#fff;border-color:#1d4ed8}
+.btn-danger{color:var(--red);border-color:var(--red-border);background:var(--red-bg)}
+.btn-danger:hover{background:#fee2e2}
+.btn-save{width:100%;margin-top:1rem;padding:9px;font-size:14px;font-weight:600;font-family:inherit;border-radius:var(--radius);border:none;background:var(--accent);color:#fff;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:6px}
+.btn-save:hover{background:#1d4ed8}
+
+/* FILTER BAR */
+.filter-bar{display:flex;gap:5px;flex-wrap:wrap}
+.filter-btn{font-size:12px;font-weight:500;padding:5px 12px;border-radius:20px;border:1px solid var(--border);background:none;color:var(--text2);cursor:pointer;transition:all .15s}
+.filter-btn:hover{background:var(--surface2);border-color:var(--border2)}
+.filter-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* ASSET GRID */
+.asset-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-bottom:1.5rem}
+.asset-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius-lg);padding:1rem;cursor:pointer;transition:all .15s;position:relative}
+.asset-card:hover{border-color:var(--border2);box-shadow:var(--shadow-md)}
+.asset-card.selected{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-bg)}
+.asset-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px}
+.asset-icon{font-size:20px;color:var(--text3)}
+.asset-del-btn{position:absolute;top:8px;right:8px;background:none;border:none;cursor:pointer;color:var(--text3);font-size:14px;padding:2px;opacity:0;transition:opacity .15s;border-radius:4px}
+.asset-card:hover .asset-del-btn{opacity:1}
+.asset-del-btn:hover{color:var(--red);background:var(--red-bg)}
+.status-pill{font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px}
+.s-done{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border)}
+.s-wip{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-border)}
+.s-todo{background:var(--gray-bg);color:var(--text2);border:1px solid var(--gray-border)}
+.s-review{background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-border)}
+.asset-name{font-size:13px;font-weight:600;color:var(--text);margin-bottom:4px;line-height:1.4;padding-right:20px}
+.asset-owner{font-size:12px;color:var(--text3);display:flex;align-items:center;gap:4px}
+.progress-wrap{margin-top:10px}
+.progress-meta{display:flex;justify-content:space-between;font-size:11px;color:var(--text2);margin-bottom:5px;font-weight:500}
+.progress-bar{height:5px;background:var(--bg);border-radius:3px;overflow:hidden;border:1px solid var(--border)}
+.progress-fill{height:100%;border-radius:3px;transition:width .4s}
+.fill-done{background:var(--green)}
+.fill-wip{background:var(--amber)}
+.fill-review{background:var(--blue)}
+.fill-todo{background:#c4c9d4}
+
+/* DETAIL PANEL */
+.detail-panel{display:none;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-bottom:1.5rem;box-shadow:var(--shadow-md)}
+.detail-panel.open{display:block}
+.dp-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:10px}
+.dp-title{font-size:16px;font-weight:600;color:var(--text)}
+.dp-status-btns{display:flex;gap:5px;flex-wrap:wrap}
+.btn-status{font-size:12px;font-weight:500;padding:5px 12px;border-radius:20px;border:1px solid var(--border);background:none;color:var(--text2);cursor:pointer;transition:all .15s;font-family:inherit}
+.btn-status:hover{background:var(--surface2)}
+.active-todo{background:var(--gray-bg)!important;color:var(--text2)!important;border-color:var(--gray-border)!important}
+.active-wip{background:var(--amber-bg)!important;color:var(--amber)!important;border-color:var(--amber-border)!important}
+.active-review{background:var(--blue-bg)!important;color:var(--blue)!important;border-color:var(--blue-border)!important}
+.active-done{background:var(--green-bg)!important;color:var(--green)!important;border-color:var(--green-border)!important}
+.dp-fields{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1.25rem}
+.dp-field label{font-size:12px;font-weight:600;color:var(--text2);display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.04em}
+.dp-field input,.dp-field select,.dp-field textarea{width:100%;font-size:13px;font-family:inherit;padding:8px 10px;border-radius:var(--radius);border:1px solid var(--border2);background:var(--surface);color:var(--text);outline:none;transition:border-color .15s}
+.dp-field input:focus,.dp-field select:focus,.dp-field textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-bg)}
+.dp-field textarea{resize:vertical;min-height:65px}
+.dp-field.full{grid-column:1/-1}
+.dp-field select option{background:#fff}
+
+/* CHECKLIST */
+.checklist-wrap{border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:0}
+.checklist-header{padding:10px 12px;background:var(--bg);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.checklist-label{font-size:12px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:0.04em}
+.checklist-pct{font-size:12px;font-weight:700;color:var(--accent)}
+.check-item{display:flex;flex-direction:column;border-bottom:1px solid var(--border);background:var(--surface)}
+.check-item:last-child{border-bottom:none}
+.check-item-row{display:flex;align-items:center;gap:8px;padding:9px 12px}
+.check-item input[type=checkbox]{width:16px;height:16px;accent-color:var(--accent);cursor:pointer;flex-shrink:0}
+.check-text{flex:1;font-size:13px;color:var(--text)}
+.check-text.done{text-decoration:line-through;color:var(--text3)}
+.check-del{background:none;border:none;cursor:pointer;color:var(--text3);font-size:14px;padding:2px 4px;border-radius:4px;transition:all .15s}
+.check-del:hover{color:var(--red);background:var(--red-bg)}
+.drag-handle{cursor:grab;color:var(--text3);font-size:16px;padding:2px 4px;border-radius:4px;flex-shrink:0;line-height:1;display:flex;align-items:center;transition:color .15s}
+.drag-handle:active{cursor:grabbing}
+.drag-handle:hover{color:var(--text2);background:var(--surface2)}
+.check-item.dragging{opacity:0.35;background:var(--accent-bg)}
+.check-item.drag-over{border-top:2px solid var(--accent);margin-top:-1px}
+.add-check{display:flex;gap:6px;padding:8px 12px;background:var(--bg);border-top:1px solid var(--border)}
+.add-check input{flex:1;font-size:13px;font-family:inherit;padding:7px 10px;border-radius:var(--radius);border:1px solid var(--border2);background:var(--surface);color:var(--text);outline:none}
+.add-check input:focus{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-bg)}
+.add-check button{padding:7px 10px;border-radius:var(--radius);border:1px solid var(--border2);background:var(--surface);color:var(--text2);cursor:pointer;font-size:14px;transition:all .15s}
+.add-check button:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* AUTOSAVE TOAST */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--green);color:#fff;font-size:13px;font-weight:500;padding:10px 18px;border-radius:var(--radius);box-shadow:var(--shadow-md);display:flex;align-items:center;gap:7px;z-index:999;transform:translateY(80px);opacity:0;transition:all .3s}
+.toast.show{transform:translateY(0);opacity:1}
+
+/* COMMENTS */
+.comments-section{margin-top:1.25rem;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.comments-header{padding:10px 12px;background:var(--bg);border-bottom:1px solid var(--border);font-size:12px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:0.04em;display:flex;align-items:center;gap:6px}
+.comment-item{padding:12px;border-bottom:1px solid var(--border);background:var(--surface)}
+.comment-item:last-child{border-bottom:none}
+.comment-item.is-new{background:#fffbeb}
+.comment-meta{display:flex;align-items:center;gap:8px;margin-bottom:5px;flex-wrap:wrap}
+.comment-avatar{width:26px;height:26px;border-radius:50%;background:var(--accent-bg);border:1px solid var(--accent-border);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--accent);flex-shrink:0}
+.comment-author{font-size:12px;font-weight:600;color:var(--text)}
+.comment-time{font-size:11px;color:var(--text3)}
+.comment-new-badge{font-size:10px;font-weight:700;background:#fef08a;color:#854d0e;border:1px solid #fde047;padding:1px 7px;border-radius:20px;letter-spacing:0.04em}
+.comment-del{margin-left:auto;background:none;border:none;cursor:pointer;color:var(--text3);font-size:12px;padding:2px 4px;border-radius:4px}
+.comment-del:hover{color:var(--red);background:var(--red-bg)}
+.comment-text{font-size:13px;color:var(--text);line-height:1.5;padding-left:34px}
+.add-comment{padding:10px 12px;background:var(--bg);border-top:1px solid var(--border);display:flex;flex-direction:column;gap:7px}
+.add-comment input,.add-comment textarea{font-size:13px;font-family:inherit;padding:7px 10px;border-radius:var(--radius);border:1px solid var(--border2);background:var(--surface);color:var(--text);outline:none;transition:border-color .15s;width:100%}
+.add-comment input:focus,.add-comment textarea:focus{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-bg)}
+.add-comment textarea{resize:vertical;min-height:52px}
+.add-comment-row{display:flex;gap:7px}
+.add-comment-row input{flex:1}
+.no-comments{padding:14px 12px;font-size:13px;color:var(--text3);text-align:center}
+/* CHECKLIST ITEM COMMENT */
+.check-item{flex-direction:column;align-items:stretch;gap:0;padding:0}
+.check-item-row{display:flex;align-items:center;gap:8px;padding:9px 12px}
+.check-item-comments{border-top:1px solid var(--border);background:var(--bg)}
+.check-comment-list{padding:0}
+.check-comment{display:flex;align-items:flex-start;gap:8px;padding:8px 12px;border-bottom:1px solid var(--border);font-size:12px}
+.check-comment:last-child{border-bottom:none}
+.check-comment-avatar{width:20px;height:20px;border-radius:50%;background:var(--accent-bg);border:1px solid var(--accent-border);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--accent);flex-shrink:0;margin-top:1px}
+.check-comment-body{flex:1}
+.check-comment-meta{display:flex;align-items:center;gap:6px;margin-bottom:2px;flex-wrap:wrap}
+.check-comment-author{font-weight:600;color:var(--text);font-size:12px}
+.check-comment-time{color:var(--text3);font-size:11px}
+.check-comment-text{color:var(--text);line-height:1.5;font-size:12px}
+.check-comment-del{background:none;border:none;cursor:pointer;color:var(--text3);font-size:11px;padding:1px 3px;border-radius:3px;margin-left:auto;flex-shrink:0}
+.check-comment-del:hover{color:var(--red);background:var(--red-bg)}
+.check-add-comment{display:flex;gap:6px;padding:7px 12px;background:var(--bg);border-top:1px solid var(--border)}
+.check-add-comment input{flex:1;font-size:12px;font-family:inherit;padding:5px 8px;border-radius:var(--radius);border:1px solid var(--border2);background:var(--surface);color:var(--text);outline:none}
+.check-add-comment input:focus{border-color:var(--accent)}
+.check-add-comment button{font-size:12px;padding:5px 10px;border-radius:var(--radius);border:1px solid var(--border2);background:var(--surface);color:var(--text2);cursor:pointer;white-space:nowrap;font-family:inherit}
+.check-add-comment button:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+.check-comment-toggle{background:none;border:none;cursor:pointer;font-size:11px;color:var(--accent);padding:4px 12px;font-family:inherit;display:flex;align-items:center;gap:4px;font-weight:500}
+.check-comment-toggle:hover{text-decoration:underline}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:200;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;width:380px;max-width:92vw;box-shadow:var(--shadow-md)}
+.modal-title{font-size:16px;font-weight:600;color:var(--text);margin-bottom:1.25rem}
+.mf{margin-bottom:11px}
+.mf label{font-size:12px;font-weight:600;color:var(--text2);display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.04em}
+.mf input,.mf select{width:100%;font-size:13px;font-family:inherit;padding:8px 10px;border-radius:var(--radius);border:1px solid var(--border2);background:var(--surface);color:var(--text);outline:none}
+.mf input:focus,.mf select:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-bg)}
+.mf select option{background:#fff}
+.modal-btns{display:flex;gap:8px;margin-top:16px}
+.modal-btns button{flex:1;padding:9px;font-size:13px;font-weight:500;font-family:inherit;border-radius:var(--radius);cursor:pointer;transition:all .15s}
+.btn-cancel{border:1px solid var(--border2);background:none;color:var(--text2)}
+.btn-cancel:hover{background:var(--surface2)}
+.btn-confirm{border:none;background:var(--accent);color:#fff;font-weight:600}
+.btn-confirm:hover{background:#1d4ed8}
+
+/* EMPTY STATE */
+.empty-state{text-align:center;padding:3rem;color:var(--text3);font-size:14px;background:var(--surface);border:1px dashed var(--border2);border-radius:var(--radius-lg)}
+.empty-state i{font-size:28px;display:block;margin-bottom:10px;color:var(--border2)}
+
+/* BOOTH PAGE */
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:1.25rem}
+.leg-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2);font-weight:500}
+.leg-dot{width:11px;height:11px;border-radius:3px;flex-shrink:0}
+/* PILLAR TABS */
+.pillar-tabs{display:flex;gap:6px;flex-wrap:wrap}
+.pillar-tab{font-size:13px;font-weight:600;padding:7px 18px;border-radius:var(--radius);border:1.5px solid var(--border2);background:var(--surface);color:var(--text2);cursor:pointer;display:flex;align-items:center;gap:7px;transition:all .15s;box-shadow:var(--shadow)}
+.pillar-tab:hover{border-color:var(--accent);color:var(--accent)}
+.pillar-tab.active{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:0 2px 8px rgba(37,99,235,.2)}
+.pillar-tab.active .ptab-del{color:rgba(255,255,255,.65)}
+.ptab-del{background:none;border:none;cursor:pointer;color:var(--text3);padding:0;font-size:12px;line-height:1}
+.ptab-del:hover{color:var(--red)}
+/* PILLAR BAR */
+.pillar-bar{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1rem 1.25rem;margin-bottom:1.25rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;box-shadow:var(--shadow)}
+.pillar-bar-left{display:flex;align-items:center;gap:10px}
+.pillar-bar-icon{width:36px;height:36px;border-radius:var(--radius);background:var(--accent-bg);border:1px solid var(--accent-border);display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--accent);flex-shrink:0}
+.pillar-name-input{font-size:16px;font-weight:600;font-family:inherit;padding:4px 8px;border-radius:var(--radius);border:1px solid transparent;background:transparent;color:var(--text);outline:none;transition:border-color .15s;width:220px}
+.pillar-name-input:focus{border-color:var(--border2);background:var(--bg);box-shadow:0 0 0 2px var(--accent-bg)}
+.pillar-wall-count{font-size:12px;color:var(--text3);font-weight:500}
+/* WALL TABS */
+.wall-tabs-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:1rem}
+.wall-tab{font-size:12px;font-weight:500;padding:5px 13px;border-radius:20px;border:1px solid var(--border);background:var(--surface);color:var(--text2);cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .15s}
+.wall-tab:hover{border-color:var(--border2);background:var(--surface2)}
+.wall-tab.active{background:var(--accent-bg);color:var(--accent);border-color:var(--accent-border);font-weight:600}
+.wall-tab.active .tab-del{color:var(--accent)}
+.tab-del{background:none;border:none;cursor:pointer;color:var(--text3);padding:0;font-size:11px;line-height:1}
+.tab-del:hover{color:var(--red)}
+/* ADD WALL FORM */
+.add-wall-form{display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:var(--bg);border:1px dashed var(--border2);border-radius:var(--radius);padding:.75rem 1rem;margin-bottom:1.25rem}
+.add-wall-form label{font-size:12px;font-weight:600;color:var(--text2)}
+.add-wall-form input,.add-wall-form select{font-size:13px;font-family:inherit;padding:5px 9px;border-radius:var(--radius);border:1px solid var(--border2);background:var(--surface);color:var(--text);outline:none}
+.add-wall-form input{width:155px}
+.add-wall-form select{width:62px}
+.add-wall-form input:focus,.add-wall-form select:focus{border-color:var(--accent)}
+/* BOOTH WRAP */
+.booth-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:1.25rem;box-shadow:var(--shadow)}
+.booth-label{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.wall-name-edit{font-size:14px;font-weight:600;font-family:inherit;padding:4px 8px;border-radius:var(--radius);border:1px solid transparent;background:transparent;color:var(--text);width:210px;transition:border-color .15s;outline:none}
+.wall-name-edit:focus{border-color:var(--border2);background:var(--surface);box-shadow:0 0 0 2px var(--accent-bg)}
+.size-controls{display:flex;gap:8px;align-items:center}
+.size-controls label{font-size:12px;font-weight:600;color:var(--text2)}
+.size-controls input{font-size:13px;font-family:inherit;padding:4px 7px;border-radius:var(--radius);border:1px solid var(--border2);background:var(--surface);color:var(--text);width:52px;outline:none}
+.size-controls input:focus{border-color:var(--accent)}
+.wall-row{display:grid;gap:8px;margin-bottom:8px}
+.slot{border:1.5px solid var(--border);border-radius:var(--radius);background:var(--surface2);min-height:80px;padding:10px;cursor:pointer;transition:all .15s;position:relative;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
+.slot:hover{border-color:var(--border2);background:#eef0f4}
+.slot.has-item{border-color:transparent}
+.slot.has-item.cat-hero{background:#eff4ff;border:1.5px solid var(--accent-border)}
+.slot.has-item.cat-product{background:var(--green-bg);border:1.5px solid var(--green-border)}
+.slot.has-item.cat-video{background:var(--amber-bg);border:1.5px solid var(--amber-border)}
+.slot.has-item.cat-graphic{background:#faf5ff;border:1.5px solid #ddd6fe}
+.slot.has-item.cat-showcase{background:var(--red-bg);border:1.5px solid var(--red-border)}
+.slot-empty-icon{font-size:18px;color:var(--text3)}
+.slot-empty-text{font-size:11px;color:var(--text3);margin-top:3px;font-weight:500}
+.slot-name{font-size:12px;font-weight:600;color:var(--text);line-height:1.4}
+.slot-cat{font-size:11px;color:var(--text2);margin-top:3px;font-weight:500}
+.slot-note{font-size:11px;color:var(--text3);margin-top:2px}
+.slot-status{position:absolute;top:7px;right:7px;width:8px;height:8px;border-radius:50%}
+.ss-done{background:var(--green)}.ss-wip{background:var(--amber)}.ss-todo{background:#c4c9d4}
+.slot-del{position:absolute;top:4px;left:4px;font-size:12px;color:var(--text3);background:none;border:none;cursor:pointer;opacity:0;padding:3px;transition:opacity .15s;border-radius:4px}
+.slot:hover .slot-del{opacity:1}
+.slot-del:hover{color:var(--red);background:var(--red-bg)}
+/* SUMMARY */
+.booth-summary-pillars{display:flex;flex-direction:column;gap:1.25rem;margin-bottom:1.5rem}
+.bsum-pillar{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow)}
+.bsum-pillar-header{padding:.75rem 1rem;background:var(--accent-bg);border-bottom:1px solid var(--accent-border);font-size:13px;font-weight:600;color:var(--accent);display:flex;align-items:center;gap:7px}
+.bsum-walls-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
+.bsum-wall-col{padding:.875rem 1rem;border-right:1px solid var(--border)}
+.bsum-wall-col:last-child{border-right:none}
+.bsum-wall-title{font-size:12px;font-weight:600;color:var(--text);margin-bottom:7px;padding-bottom:5px;border-bottom:1px solid var(--border)}
+.bsum-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2);padding:2px 0;font-weight:500}
+.bsum-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+
+@media(max-width:600px){
+  .topbar{padding:0 1rem}
+  .page{padding:1rem}
+  .hero{padding:1.25rem}
+  .dp-fields{grid-template-columns:1fr}
+  .dp-field.full{grid-column:1}
+}
+</style>
+</head>
+<body>
+
+<!-- LOADING OVERLAY -->
+<div id="loadingOverlay" style="display:none;position:fixed;inset:0;background:rgba(255,255,255,0.92);z-index:999;align-items:center;justify-content:center;flex-direction:column;gap:12px">
+  <div style="width:36px;height:36px;border:3px solid #e0e7ff;border-top-color:#2563eb;border-radius:50%;animation:spin .7s linear infinite"></div>
+  <div style="font-size:14px;color:#4a5060;font-weight:500">Loading latest data…</div>
+</div>
+<style>@keyframes spin{to{transform:rotate(360deg)}}</style>
+
+<header class="topbar">
+  <div class="topbar-left">
+    <span class="topbar-logo">SUPERZOO 2026</span>
+    <span class="topbar-badge">Las Vegas · Aug 10–14</span>
+  </div>
+  <nav class="topbar-nav">
+    <button class="nav-btn active" onclick="showPage('tracker',this)">Asset Tracker</button>
+    <button class="nav-btn" onclick="showPage('booth',this)">Booth Layout</button>
+  </nav>
+  <div style="display:flex;align-items:center;gap:10px">
+    <div id="syncBadge" style="font-size:11px;font-weight:600;background:#f0fdf4;color:#16a34a;border:1px solid #bbf7d0;padding:4px 10px;border-radius:20px;opacity:0;transition:opacity .4s;display:flex;align-items:center;gap:5px"><i class="ti ti-refresh" style="font-size:12px"></i>Updated</div>
+    <div class="countdown-pill">
+      <i class="ti ti-clock" style="font-size:13px"></i>
+      <span class="countdown-num" id="daysLeft">—</span>
+      <span style="font-weight:400">days to go</span>
+    </div>
+  </div>
+</header>
+
+<!-- ══════════ ASSET TRACKER ══════════ -->
+<main class="page active" id="page-tracker">
+  <div class="hero">
+    <div>
+      <div class="hero-eyebrow">2026 SUPERZOO</div>
+      <h1>Asset Preparation Tracker</h1>
+      <div class="hero-sub">Las Vegas Convention Center &nbsp;·&nbsp; Aug 10–14, 2026</div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-days" id="heroCountdown">—</div>
+      <div class="hero-days-label">days until show</div>
+    </div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-val" id="st-total" style="color:var(--text)">0</div><div class="stat-lbl">Total assets</div></div>
+    <div class="stat-card"><div class="stat-val" id="st-done" style="color:var(--green)">0</div><div class="stat-lbl">Done</div></div>
+    <div class="stat-card"><div class="stat-val" id="st-wip" style="color:var(--amber)">0</div><div class="stat-lbl">In progress</div></div>
+    <div class="stat-card"><div class="stat-val" id="st-review" style="color:var(--blue)">0</div><div class="stat-lbl">In review</div></div>
+    <div class="stat-card"><div class="stat-val" id="st-todo" style="color:var(--text3)">0</div><div class="stat-lbl">Not started</div></div>
+  </div>
+
+  <div class="sec-header">
+    <span class="sec-title"><i class="ti ti-checklist"></i> Assets</span>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <div class="filter-bar">
+        <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
+        <button class="filter-btn" onclick="setFilter('done',this)">Done</button>
+        <button class="filter-btn" onclick="setFilter('wip',this)">In progress</button>
+        <button class="filter-btn" onclick="setFilter('review',this)">In review</button>
+        <button class="filter-btn" onclick="setFilter('todo',this)">Not started</button>
+      </div>
+      <button class="btn" onclick="openAddModal()"><i class="ti ti-plus"></i> Add asset</button>
+    </div>
+  </div>
+
+  <div class="asset-grid" id="assetGrid"></div>
+
+  <div class="detail-panel" id="detailPanel">
+    <div class="dp-header">
+      <span class="dp-title" id="dp-name">—</span>
+      <div style="display:flex;gap:8px;align-items:center">
+        <div class="dp-status-btns">
+          <button class="btn-status" id="btn-todo" onclick="setStatus('todo')">Not started</button>
+          <button class="btn-status" id="btn-wip" onclick="setStatus('wip')">In progress</button>
+          <button class="btn-status" id="btn-review" onclick="setStatus('review')">In review</button>
+          <button class="btn-status" id="btn-done" onclick="setStatus('done')">Done</button>
+        </div>
+        <button class="btn btn-danger" onclick="deleteSelectedAsset()" style="font-size:12px;padding:5px 10px"><i class="ti ti-trash"></i> Delete</button>
+      </div>
+    </div>
+    <div class="dp-fields">
+      <div class="dp-field"><label>Owner</label><input type="text" id="dp-owner" placeholder="Name" onchange="autoSave()" /></div>
+      <div class="dp-field"><label>Due date</label><input type="date" id="dp-due" onchange="autoSave()" /></div>
+      <div class="dp-field"><label>File / Link</label><input type="text" id="dp-link" placeholder="URL or file path" onchange="autoSave()" /></div>
+      <div class="dp-field"><label>Progress</label>
+        <div style="display:flex;align-items:center;gap:8px;height:38px">
+          <div style="flex:1;height:8px;background:var(--bg);border-radius:4px;overflow:hidden;border:1px solid var(--border)">
+            <div id="dp-prog-bar" class="progress-fill fill-todo" style="width:0%;height:100%"></div>
+          </div>
+          <span id="dp-prog-pct" style="font-size:14px;font-weight:700;color:var(--accent);min-width:36px;text-align:right">0%</span>
+        </div>
+      </div>
+      <div class="dp-field full"><label>Notes</label><textarea id="dp-notes" placeholder="Status, blockers, details…" onchange="autoSave()"></textarea></div>
+    </div>
+
+    <div style="margin-bottom:1.25rem">
+      <div class="checklist-wrap">
+        <div class="checklist-header">
+          <span class="checklist-label"><i class="ti ti-list-check" style="font-size:13px;margin-right:4px"></i>Checklist</span>
+          <span class="checklist-pct" id="cl-pct">0%</span>
+        </div>
+        <div id="checklistItems"></div>
+        <div class="add-check">
+          <input type="text" id="newCheckInput" placeholder="Add checklist item…" onkeydown="if(event.key==='Enter')addCheckItem()" />
+          <button onclick="addCheckItem()"><i class="ti ti-plus"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="comments-section">
+      <div class="comments-header"><i class="ti ti-message-circle" style="font-size:14px"></i> Comments</div>
+      <div id="commentsList"></div>
+      <div class="add-comment">
+        <div class="add-comment-row">
+          <input type="text" id="comment-author" placeholder="Your name" />
+        </div>
+        <textarea id="comment-text" placeholder="Write a comment…"></textarea>
+        <button class="btn btn-primary" onclick="addComment()" style="align-self:flex-end"><i class="ti ti-send"></i> Post comment</button>
+      </div>
+    </div>
+
+    <button class="btn-save" onclick="saveDetail()"><i class="ti ti-device-floppy"></i> Save changes</button>
+  </div>
+</main>
+
+<!-- ══════════ BOOTH LAYOUT ══════════ -->
+<main class="page" id="page-booth">
+  <div class="hero">
+    <div>
+      <div class="hero-eyebrow">Booth Planner</div>
+      <h1>Booth Wall Layout</h1>
+      <div class="hero-sub">Organize walls by pillar — add, rename, and configure each one freely</div>
+    </div>
+  </div>
+
+  <div class="legend">
+    <div class="leg-item"><div class="leg-dot" style="background:var(--accent-bg);border:1.5px solid var(--accent-border)"></div>Hero / Branding</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--green-bg);border:1.5px solid var(--green-border)"></div>Product display</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--amber-bg);border:1.5px solid var(--amber-border)"></div>Video / Screen</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#faf5ff;border:1.5px solid #ddd6fe"></div>Graphics / Print</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--red-bg);border:1.5px solid var(--red-border)"></div>Showcase</div>
+  </div>
+
+  <!-- PILLAR TABS + ADD PILLAR -->
+  <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:1rem">
+    <div class="pillar-tabs" id="pillarTabs"></div>
+    <button class="btn" onclick="openAddPillarModal()"><i class="ti ti-plus"></i> Add pillar</button>
+  </div>
+
+  <!-- PILLAR DETAIL: name edit + add wall -->
+  <div id="pillarDetail"></div>
+
+  <!-- WALL CONTENT -->
+  <div id="wallContent"></div>
+
+  <!-- SUMMARY -->
+  <div class="sec-header" style="margin-top:1.5rem">
+    <span class="sec-title"><i class="ti ti-layout-grid"></i> Full booth summary</span>
+  </div>
+  <div id="boothSummary"></div>
+</main>
+
+<!-- ADD PILLAR MODAL -->
+<div class="modal-overlay" id="addPillarModal">
+  <div class="modal">
+    <div class="modal-title">Add new pillar</div>
+    <div class="mf"><label>Pillar name</label><input type="text" id="np-name" placeholder="e.g. Pillar A" /></div>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeAddPillarModal()">Cancel</button>
+      <button class="btn-confirm" onclick="confirmAddPillar()">Add pillar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD ASSET MODAL -->
+<div class="modal-overlay" id="addModal">
+  <div class="modal">
+    <div class="modal-title">Add new asset</div>
+    <div class="mf"><label>Asset name</label><input type="text" id="new-name" placeholder="e.g. 2026 Catalog" /></div>
+    <div class="mf"><label>Category</label>
+      <select id="new-cat">
+        <option value="print">Print material</option>
+        <option value="digital">Digital content</option>
+        <option value="booth">Booth / Display</option>
+        <option value="apparel">Apparel / Merch</option>
+        <option value="logistics">Logistics / Ops</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+    <div class="mf"><label>Owner</label><input type="text" id="new-owner" placeholder="Name" /></div>
+    <div class="mf"><label>Status</label>
+      <select id="new-status">
+        <option value="todo">Not started</option>
+        <option value="wip">In progress</option>
+        <option value="review">In review</option>
+        <option value="done">Done</option>
+      </select>
+    </div>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeAddModal()">Cancel</button>
+      <button class="btn-confirm" onclick="confirmAdd()">Add asset</button>
+    </div>
+  </div>
+</div>
+
+<!-- SLOT MODAL -->
+<div class="modal-overlay" id="slotModal">
+  <div class="modal">
+    <div class="modal-title" id="slotModalTitle">Edit slot</div>
+    <div class="mf"><label>Product / Content name</label><input type="text" id="sm-name" placeholder="e.g. Model X Pro display" /></div>
+    <div class="mf"><label>Category</label>
+      <select id="sm-cat">
+        <option value="product">Product display</option>
+        <option value="hero">Hero / Branding</option>
+        <option value="video">Video / Screen</option>
+        <option value="graphic">Graphics / Print</option>
+        <option value="showcase">Showcase</option>
+        <option value="empty">Empty</option>
+      </select>
+    </div>
+    <div class="mf"><label>Status</label>
+      <select id="sm-status">
+        <option value="todo">Not started</option>
+        <option value="wip">In progress</option>
+        <option value="done">Done</option>
+      </select>
+    </div>
+    <div class="mf"><label>Note (optional)</label><input type="text" id="sm-note" placeholder="Size, quantity, etc." /></div>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeSlotModal()">Cancel</button>
+      <button class="btn-confirm" onclick="saveSlot()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- AUTOSAVE TOAST -->
+<div class="toast" id="toast"><i class="ti ti-check"></i> Saved automatically</div>
+
+<script>
+/* ── UTILS ── */
+function calcDays(){
+  const d=Math.ceil((new Date('2026-08-10')-new Date())/864e5);
+  const v=d>0?d:0;
+  document.getElementById('daysLeft').textContent=v;
+  document.getElementById('heroCountdown').textContent=v;
+}
+
+function showPage(id,btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+
+let _toastTimer;
+function showToast(){
+  const t=document.getElementById('toast');
+  t.classList.add('show');
+  clearTimeout(_toastTimer);
+  _toastTimer=setTimeout(()=>t.classList.remove('show'),2000);
+}
+
+/* ── CLOUDFLARE KV SYNC ── */
+const API = '/api';
+let _saveTimer = null;
+let _pollTimer = null;
+let _lastSaveTime = 0;
+
+async function kvGet(key) {
+  try {
+    const r = await fetch(`${API}/${key}`);
+    const d = await r.json();
+    return d;
+  } catch(e) { return null; }
+}
+
+async function kvSet(key, val) {
+  try {
+    await fetch(`${API}/${key}`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(val),
+    });
+  } catch(e) {}
+}
+
+function saveAssets() {
+  _lastSaveTime = Date.now();
+  clearTimeout(_saveTimer);
+  _saveTimer = setTimeout(async () => {
+    await kvSet('assets', assets);
+    showToast();
+  }, 600);
+}
+
+function savePillars() {
+  _lastSaveTime = Date.now();
+  clearTimeout(_saveTimer);
+  _saveTimer = setTimeout(async () => {
+    await kvSet('pillars', pillars);
+    showToast();
+  }, 600);
+}
+
+async function loadAllData() {
+  const [a, p] = await Promise.all([kvGet('assets'), kvGet('pillars')]);
+  return { assets: a, pillars: p };
+}
+
+function startPolling() {
+  _pollTimer = setInterval(async () => {
+    if (Date.now() - _lastSaveTime < 3000) return;
+    const [remoteAssets, remotePillars] = await Promise.all([kvGet('assets'), kvGet('pillars')]);
+    let changed = false;
+    if (remoteAssets && JSON.stringify(remoteAssets) !== JSON.stringify(assets)) {
+      assets = remoteAssets;
+      assets.forEach(a => { if(!a.comments)a.comments=[]; if(!a.checks)a.checks=[]; });
+      nextId = assets.reduce((m,a) => Math.max(m,a.id), 0) + 1;
+      renderGrid();
+      if (selectedId) {
+        const a = assets.find(x => x.id === selectedId);
+        if (a) { renderChecklist(a); renderComments(a); updateProgressBar(a); }
+      }
+      changed = true;
+    }
+    if (remotePillars && JSON.stringify(remotePillars) !== JSON.stringify(pillars)) {
+      pillars = remotePillars;
+      renderPillarTabs();
+      renderPillarDetail();
+      renderWallContent();
+      renderBoothSummary();
+      changed = true;
+    }
+    if (changed) showSyncBadge();
+  }, 5000);
+}
+
+function showSyncBadge() {
+  const b = document.getElementById('syncBadge');
+  if (!b) return;
+  b.style.opacity = '1';
+  setTimeout(() => { b.style.opacity = '0'; }, 2000);
+}
+
+/* ── LOAD + INIT ── */
+async function initApp() {
+  document.getElementById('loadingOverlay').style.display = 'flex';
+  const { assets: a, pillars: p } = await loadAllData();
+
+  if (a && Array.isArray(a)) {
+    assets = a;
+  }
+  assets.forEach(x => { if(!x.comments)x.comments=[]; if(!x.checks)x.checks=[]; });
+  nextId = assets.reduce((m,x) => Math.max(m,x.id), 0) + 1;
+
+  if (p && Array.isArray(p)) {
+    pillars = p;
+    activePillarId = pillars[0]?.id || null;
+    activeWallId = pillars[0]?.walls[0]?.id || null;
+  }
+
+  document.getElementById('loadingOverlay').style.display = 'none';
+  renderGrid();
+  renderPillarTabs();
+  renderPillarDetail();
+  renderWallContent();
+  renderBoothSummary();
+  startPolling();
+}
+
+
+/* ════════ ASSET TRACKER ════════ */
+const CAT_ICON={print:'ti-file-text',digital:'ti-device-tv',booth:'ti-layout-board',apparel:'ti-shirt',logistics:'ti-truck',other:'ti-box'};
+const CAT_LABEL={print:'Print',digital:'Digital',booth:'Booth',apparel:'Apparel',logistics:'Logistics',other:'Other'};
+const STATUS_LABEL={done:'Done',wip:'In progress',review:'In review',todo:'Not started'};
+
+const DEFAULT_ASSETS=[
+  {id:1,name:'2026 Catalog',cat:'print',owner:'',status:'todo',due:'',link:'',notes:'',checks:[],comments:[]},
+  {id:2,name:'2026 Price List',cat:'print',owner:'',status:'todo',due:'',link:'',notes:'',checks:[],comments:[]},
+  {id:3,name:'Booth loop video',cat:'digital',owner:'',status:'todo',due:'',link:'',notes:'',checks:[],comments:[]},
+  {id:4,name:'Booth wall video',cat:'digital',owner:'',status:'todo',due:'',link:'',notes:'',checks:[],comments:[]},
+  {id:5,name:'Showcase wall design',cat:'booth',owner:'',status:'todo',due:'',link:'',notes:'',checks:[],comments:[]},
+  {id:6,name:'Showcase item list',cat:'booth',owner:'',status:'todo',due:'',link:'',notes:'',checks:[],comments:[]},
+  {id:7,name:'Booth wall product plan',cat:'booth',owner:'',status:'todo',due:'',link:'',notes:'',checks:[],comments:[]},
+  {id:8,name:'Flyer',cat:'print',owner:'',status:'todo',due:'',link:'',notes:'',checks:[],comments:[]},
+  {id:9,name:'Team T-shirts',cat:'apparel',owner:'',status:'todo',due:'',link:'',notes:'',checks:[],comments:[]},
+];
+
+let assets = DEFAULT_ASSETS.map(a => ({...a}));
+assets.forEach(a=>{if(!a.comments)a.comments=[];if(!a.checks)a.checks=[];});
+let nextId=assets.reduce((m,a)=>Math.max(m,a.id),0)+1;
+let selectedId=null;
+let currentFilter='all';
+
+function calcPct(a){
+  if(!a.checks||!a.checks.length)return 0;
+  return Math.round(a.checks.filter(c=>c.done).length/a.checks.length*100);
+}
+
+function updateStats(){
+  document.getElementById('st-total').textContent=assets.length;
+  document.getElementById('st-done').textContent=assets.filter(a=>a.status==='done').length;
+  document.getElementById('st-wip').textContent=assets.filter(a=>a.status==='wip').length;
+  document.getElementById('st-review').textContent=assets.filter(a=>a.status==='review').length;
+  document.getElementById('st-todo').textContent=assets.filter(a=>a.status==='todo').length;
+}
+
+function setFilter(f,btn){
+  currentFilter=f;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderGrid();
+}
+
+function renderGrid(){
+  const grid=document.getElementById('assetGrid');
+  const list=currentFilter==='all'?assets:assets.filter(a=>a.status===currentFilter);
+  if(!list.length){
+    grid.innerHTML='<div class="empty-state"><i class="ti ti-inbox"></i>No assets match this filter.</div>';
+    updateStats();return;
+  }
+  grid.innerHTML=list.map(a=>{
+    const pct=calcPct(a);
+    const fillCls=a.status==='done'?'fill-done':a.status==='wip'?'fill-wip':a.status==='review'?'fill-review':'fill-todo';
+    const selCls=selectedId===a.id?' selected':'';
+    return `<div class="asset-card${selCls}" onclick="selectAsset(${a.id})">
+      <button class="asset-del-btn" onclick="event.stopPropagation();deleteAsset(${a.id})" title="Delete asset"><i class="ti ti-trash"></i></button>
+      <div class="asset-top">
+        <i class="ti ${CAT_ICON[a.cat]||'ti-box'} asset-icon"></i>
+        <span class="status-pill s-${a.status}">${STATUS_LABEL[a.status]}</span>
+      </div>
+      <div class="asset-name">${a.name}</div>
+      <div class="asset-owner"><i class="ti ti-user" style="font-size:11px"></i>${a.owner||'Unassigned'}</div>
+      <div class="progress-wrap">
+        <div class="progress-meta"><span>${CAT_LABEL[a.cat]}</span><span style="font-weight:700;color:var(--accent)">${pct}%</span></div>
+        <div class="progress-bar"><div class="progress-fill ${fillCls}" style="width:${pct}%"></div></div>
+      </div>
+    </div>`;
+  }).join('');
+  updateStats();
+}
+
+function selectAsset(id){
+  selectedId=id;
+  const a=assets.find(x=>x.id===id);
+  if(!a)return;
+  document.getElementById('dp-name').textContent=a.name;
+  document.getElementById('dp-owner').value=a.owner||'';
+  document.getElementById('dp-due').value=a.due||'';
+  document.getElementById('dp-link').value=a.link||'';
+  document.getElementById('dp-notes').value=a.notes||'';
+  ['todo','wip','review','done'].forEach(s=>{
+    document.getElementById('btn-'+s).className='btn-status'+(a.status===s?' active-'+s:'');
+  });
+  renderChecklist(a);
+  renderComments(a);
+  updateProgressBar(a);
+  const panel=document.getElementById('detailPanel');
+  panel.classList.add('open');
+  panel.scrollIntoView({behavior:'smooth',block:'nearest'});
+  renderGrid();
+}
+
+function updateProgressBar(a){
+  const pct=calcPct(a);
+  const bar=document.getElementById('dp-prog-bar');
+  const lbl=document.getElementById('dp-prog-pct');
+  bar.style.width=pct+'%';
+  lbl.textContent=pct+'%';
+  bar.className='progress-fill '+(pct===100?'fill-done':pct>0?'fill-wip':'fill-todo');
+  document.getElementById('cl-pct').textContent=pct+'%';
+}
+
+function renderChecklist(a){
+  const container=document.getElementById('checklistItems');
+  container.innerHTML=(a.checks||[]).map((item,i)=>{
+    const cmts=item.comments||[];
+    const newCmts=cmts.filter(c=>isNew(c.ts));
+    const expanded=item._expanded||false;
+    return `<div class="check-item" data-idx="${i}">
+      <div class="check-item-row">
+        <span class="drag-handle" title="Drag to reorder" draggable-handle><i class="ti ti-grip-vertical"></i></span>
+        <input type="checkbox" ${item.done?'checked':''} onchange="toggleCheck(${a.id},${i})" />
+        <span class="check-text${item.done?' done':''}">${item.text}</span>
+        <button class="check-comment-toggle" onclick="toggleCheckComments(${a.id},${i})">
+          <i class="ti ti-message-circle" style="font-size:12px"></i>
+          ${cmts.length?cmts.length:''}${newCmts.length?`<span class="comment-new-badge">NEW</span>`:''}
+          ${expanded?'Hide':'Comment'}
+        </button>
+        <button class="check-del" onclick="removeCheck(${a.id},${i})" title="Remove"><i class="ti ti-x"></i></button>
+      </div>
+      ${expanded?renderCheckComments(a,i):''}
+    </div>`;
+  }).join('');
+  initChecklistDrag(a);
+}
+
+function renderCheckComments(a,i){
+  const item=a.checks[i];
+  const cmts=item.comments||[];
+  return `<div class="check-item-comments">
+    <div class="check-comment-list">
+      ${cmts.length?cmts.map((c,ci)=>`
+        <div class="check-comment">
+          <div class="check-comment-avatar">${(c.author||'?').substring(0,2).toUpperCase()}</div>
+          <div class="check-comment-body">
+            <div class="check-comment-meta">
+              <span class="check-comment-author">${c.author||'Anonymous'}</span>
+              <span class="check-comment-time">${c.timeStr}</span>
+              ${isNew(c.ts)?`<span class="comment-new-badge">NEW</span>`:''}
+            </div>
+            <div class="check-comment-text">${c.text}</div>
+          </div>
+          <button class="check-comment-del" onclick="deleteCheckComment(${a.id},${i},${ci})"><i class="ti ti-x"></i></button>
+        </div>`).join('')
+      :'<div style="padding:8px 12px;font-size:12px;color:var(--text3)">No comments yet.</div>'}
+    </div>
+    <div class="check-add-comment">
+      <input type="text" id="cc-author-${a.id}-${i}" placeholder="Your name" style="max-width:120px" />
+      <input type="text" id="cc-text-${a.id}-${i}" placeholder="Write a comment…" onkeydown="if(event.key==='Enter')addCheckComment(${a.id},${i})" />
+      <button onclick="addCheckComment(${a.id},${i})"><i class="ti ti-send" style="font-size:12px"></i> Post</button>
+    </div>
+  </div>`;
+}
+
+function toggleCheckComments(aid,i){
+  const a=assets.find(x=>x.id===aid);
+  if(!a)return;
+  a.checks[i]._expanded=!a.checks[i]._expanded;
+  renderChecklist(a);
+}
+
+function addCheckComment(aid,i){
+  const a=assets.find(x=>x.id===aid);
+  if(!a)return;
+  const author=document.getElementById(`cc-author-${aid}-${i}`)?.value.trim()||'';
+  const text=document.getElementById(`cc-text-${aid}-${i}`)?.value.trim()||'';
+  if(!text)return;
+  if(!a.checks[i].comments)a.checks[i].comments=[];
+  const now=new Date();
+  a.checks[i].comments.push({
+    author:author||'Anonymous',
+    text,
+    ts:now.getTime(),
+    timeStr:now.toLocaleDateString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'})
+  });
+  renderChecklist(a);
+  saveAssets();
+}
+
+function deleteCheckComment(aid,i,ci){
+  const a=assets.find(x=>x.id===aid);
+  if(!a)return;
+  a.checks[i].comments.splice(ci,1);
+  renderChecklist(a);
+  saveAssets();
+}
+
+let _dragSrcIdx=null;
+function initChecklistDrag(a){
+  const items=document.querySelectorAll('#checklistItems .check-item');
+  items.forEach(el=>{
+    el.setAttribute('draggable','true');
+    el.addEventListener('dragstart',e=>{
+      if(e.target.closest('.check-item-comments')){e.preventDefault();return;}
+      _dragSrcIdx=parseInt(el.dataset.idx);
+      el.classList.add('dragging');
+      e.dataTransfer.effectAllowed='move';
+    });
+    el.addEventListener('dragend',()=>{
+      el.classList.remove('dragging');
+      document.querySelectorAll('#checklistItems .check-item').forEach(x=>x.classList.remove('drag-over'));
+    });
+    el.addEventListener('dragover',e=>{
+      if(e.target.closest('.check-item-comments'))return;
+      e.preventDefault();
+      e.dataTransfer.dropEffect='move';
+      document.querySelectorAll('#checklistItems .check-item').forEach(x=>x.classList.remove('drag-over'));
+      el.classList.add('drag-over');
+    });
+    el.addEventListener('dragleave',()=>el.classList.remove('drag-over'));
+    el.addEventListener('drop',e=>{
+      e.preventDefault();
+      const destIdx=parseInt(el.dataset.idx);
+      if(_dragSrcIdx===null||_dragSrcIdx===destIdx)return;
+      const moved=a.checks.splice(_dragSrcIdx,1)[0];
+      a.checks.splice(destIdx,0,moved);
+      _dragSrcIdx=null;
+      renderChecklist(a);
+      updateProgressBar(a);
+      autoSave();
+    });
+  });
+}
+
+function toggleCheck(aid,i){
+  const a=assets.find(x=>x.id===aid);
+  if(!a)return;
+  a.checks[i].done=!a.checks[i].done;
+  if(a.checks.every(c=>c.done)&&a.checks.length>0) a.status='done';
+  else if(a.checks.some(c=>c.done)) a.status='wip';
+  renderChecklist(a);
+  updateProgressBar(a);
+  ['todo','wip','review','done'].forEach(s=>{
+    document.getElementById('btn-'+s).className='btn-status'+(a.status===s?' active-'+s:'');
+  });
+  autoSave();
+}
+
+function removeCheck(aid,i){
+  const a=assets.find(x=>x.id===aid);
+  if(!a)return;
+  a.checks.splice(i,1);
+  renderChecklist(a);
+  updateProgressBar(a);
+  autoSave();
+}
+
+function addCheckItem(){
+  const inp=document.getElementById('newCheckInput');
+  if(!inp.value.trim()||!selectedId)return;
+  const a=assets.find(x=>x.id===selectedId);
+  if(!a.checks)a.checks=[];
+  a.checks.push({text:inp.value.trim(),done:false});
+  inp.value='';
+  renderChecklist(a);
+  updateProgressBar(a);
+  autoSave();
+}
+
+function setStatus(s){
+  if(!selectedId)return;
+  const a=assets.find(x=>x.id===selectedId);
+  if(!a)return;
+  a.status=s;
+  ['todo','wip','review','done'].forEach(st=>{
+    document.getElementById('btn-'+st).className='btn-status'+(a.status===st?' active-'+st:'');
+  });
+  autoSave();
+  renderGrid();
+}
+
+function autoSave(){
+  if(!selectedId)return;
+  const a=assets.find(x=>x.id===selectedId);
+  if(!a)return;
+  a.owner=document.getElementById('dp-owner').value;
+  a.due=document.getElementById('dp-due').value;
+  a.link=document.getElementById('dp-link').value;
+  a.notes=document.getElementById('dp-notes').value;
+  saveAssets();
+  renderGrid();
+}
+
+function saveDetail(){
+  autoSave();
+  const btn=document.querySelector('.btn-save');
+  btn.innerHTML='<i class="ti ti-check"></i> Saved';
+  setTimeout(()=>{btn.innerHTML='<i class="ti ti-device-floppy"></i> Save changes';},1600);
+}
+
+function deleteAsset(id){
+  if(!confirm('Delete this asset?'))return;
+  assets=assets.filter(a=>a.id!==id);
+  if(selectedId===id){
+    selectedId=null;
+    document.getElementById('detailPanel').classList.remove('open');
+  }
+  saveAssets();
+  renderGrid();
+}
+
+function deleteSelectedAsset(){
+  if(selectedId)deleteAsset(selectedId);
+}
+
+/* COMMENTS */
+function isNew(ts){
+  if(!ts)return false;
+  return (Date.now()-ts)<3*24*60*60*1000;
+}
+
+function renderComments(a){
+  const list=document.getElementById('commentsList');
+  if(!a.comments||!a.comments.length){
+    list.innerHTML='<div class="no-comments">No comments yet. Be the first to comment.</div>';
+    return;
+  }
+  list.innerHTML=a.comments.map((c,i)=>{
+    const fresh=isNew(c.ts);
+    return `<div class="comment-item${fresh?' is-new':''}">
+      <div class="comment-meta">
+        <div class="comment-avatar">${(c.author||'?').substring(0,2).toUpperCase()}</div>
+        <span class="comment-author">${c.author||'Anonymous'}</span>
+        <span class="comment-time">${c.timeStr||c.time||''}</span>
+        ${fresh?`<span class="comment-new-badge">NEW</span>`:''}
+        <button class="comment-del" onclick="deleteComment(${a.id},${i})" title="Delete"><i class="ti ti-trash" style="font-size:12px"></i></button>
+      </div>
+      <div class="comment-text">${c.text}</div>
+    </div>`;
+  }).join('');
+}
+
+function addComment(){
+  if(!selectedId)return;
+  const author=document.getElementById('comment-author').value.trim();
+  const text=document.getElementById('comment-text').value.trim();
+  if(!text)return;
+  const a=assets.find(x=>x.id===selectedId);
+  if(!a.comments)a.comments=[];
+  const now=new Date();
+  a.comments.push({
+    author:author||'Anonymous',
+    text,
+    ts:now.getTime(),
+    timeStr:now.toLocaleDateString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'})
+  });
+  document.getElementById('comment-text').value='';
+  renderComments(a);
+  saveAssets();
+}
+
+function deleteComment(aid,i){
+  const a=assets.find(x=>x.id===aid);
+  if(!a)return;
+  a.comments.splice(i,1);
+  renderComments(a);
+  saveAssets();
+}
+
+function openAddModal(){document.getElementById('addModal').classList.add('open');}
+function closeAddModal(){document.getElementById('addModal').classList.remove('open');}
+
+function confirmAdd(){
+  const name=document.getElementById('new-name').value.trim();
+  if(!name)return;
+  assets.push({
+    id:nextId++,
+    name,
+    cat:document.getElementById('new-cat').value,
+    owner:document.getElementById('new-owner').value,
+    status:document.getElementById('new-status').value,
+    due:'',link:'',notes:'',checks:[],comments:[]
+  });
+  document.getElementById('new-name').value='';
+  document.getElementById('new-owner').value='';
+  closeAddModal();
+  saveAssets();
+  renderGrid();
+}
+
+/* ════════ BOOTH LAYOUT ════════ */
+const BCATLABEL={hero:'Hero / Branding',product:'Product display',video:'Video / Screen',graphic:'Graphics / Print',showcase:'Showcase',empty:'Empty'};
+const BDOTCOLOR={hero:'#2563eb',product:'#16a34a',video:'#d97706',graphic:'#7c3aed',showcase:'#dc2626',empty:'#c4c9d4'};
+const BSTATDOT={done:'ss-done',wip:'ss-wip',todo:'ss-todo'};
+
+const DEFAULT_PILLARS=[
+  {id:'p1',name:'Pillar A',walls:[
+    {id:'p1w1',name:'Front wall',cols:3,rows:2,slots:[
+      {name:'Brand logo banner',cat:'hero',status:'wip',note:'Full back wall'},
+      {name:'',cat:'empty',status:'todo',note:''},
+      {name:'Brand logo banner',cat:'hero',status:'wip',note:''},
+      {name:'New product A',cat:'product',status:'todo',note:''},
+      {name:'LED screen',cat:'video',status:'todo',note:'55"'},
+      {name:'New product B',cat:'product',status:'todo',note:''},
+    ]},
+    {id:'p1w2',name:'Left wall',cols:2,rows:2,slots:[
+      {name:'Showcase unit',cat:'showcase',status:'todo',note:''},
+      {name:'Flyer rack',cat:'graphic',status:'todo',note:''},
+      {name:'Product C',cat:'product',status:'todo',note:''},
+      {name:'Product D',cat:'product',status:'todo',note:''},
+    ]},
+    {id:'p1w3',name:'Right wall',cols:2,rows:1,slots:[
+      {name:'Product E',cat:'product',status:'todo',note:''},
+      {name:'Video loop',cat:'video',status:'todo',note:''},
+    ]},
+    {id:'p1w4',name:'Back wall',cols:3,rows:1,slots:[
+      {name:'',cat:'empty',status:'todo',note:''},
+      {name:'',cat:'empty',status:'todo',note:''},
+      {name:'',cat:'empty',status:'todo',note:''},
+    ]},
+  ]},
+  {id:'p2',name:'Pillar B',walls:[
+    {id:'p2w1',name:'Front wall',cols:3,rows:1,slots:[
+      {name:'',cat:'empty',status:'todo',note:''},
+      {name:'',cat:'empty',status:'todo',note:''},
+      {name:'',cat:'empty',status:'todo',note:''},
+    ]},
+    {id:'p2w2',name:'Left wall',cols:2,rows:1,slots:[
+      {name:'',cat:'empty',status:'todo',note:''},
+      {name:'',cat:'empty',status:'todo',note:''},
+    ]},
+    {id:'p2w3',name:'Right wall',cols:2,rows:1,slots:[
+      {name:'',cat:'empty',status:'todo',note:''},
+      {name:'',cat:'empty',status:'todo',note:''},
+    ]},
+    {id:'p2w4',name:'Back wall',cols:3,rows:1,slots:[
+      {name:'',cat:'empty',status:'todo',note:''},
+      {name:'',cat:'empty',status:'todo',note:''},
+      {name:'',cat:'empty',status:'todo',note:''},
+    ]},
+  ]},
+];
+
+
+let pillars = DEFAULT_PILLARS.map(p => ({...p}));
+
+let activePillarId=pillars[0]?.id||null;
+let activeWallId=pillars[0]?.walls[0]?.id||null;
+let _sWallId=null,_sIdx=null;
+
+function emptySlot(){return{name:'',cat:'empty',status:'todo',note:''};}
+function padSlots(w){const n=w.cols*w.rows;while(w.slots.length<n)w.slots.push(emptySlot());}
+function getActivePillar(){return pillars.find(p=>p.id===activePillarId);}
+function getActiveWall(){const p=getActivePillar();return p?.walls.find(w=>w.id===activeWallId);}
+
+/* ── PILLAR TABS ── */
+function renderPillarTabs(){
+  document.getElementById('pillarTabs').innerHTML=pillars.map(p=>`
+    <button class="pillar-tab${p.id===activePillarId?' active':''}" onclick="selectPillar('${p.id}')">
+      <i class="ti ti-box" style="font-size:14px"></i>${p.name}
+      <span class="ptab-del" onclick="event.stopPropagation();deletePillar('${p.id}')" title="Delete pillar"><i class="ti ti-x"></i></span>
+    </button>`).join('');
+}
+
+function selectPillar(pid){
+  activePillarId=pid;
+  const p=pillars.find(x=>x.id===pid);
+  activeWallId=p?.walls[0]?.id||null;
+  renderPillarTabs();
+  renderPillarDetail();
+  renderWallContent();
+  renderBoothSummary();
+}
+
+function openAddPillarModal(){document.getElementById('addPillarModal').classList.add('open');}
+function closeAddPillarModal(){document.getElementById('addPillarModal').classList.remove('open');}
+
+function confirmAddPillar(){
+  const name=document.getElementById('np-name').value.trim();
+  if(!name)return;
+  const pid='p_'+Date.now();
+  pillars.push({id:pid,name,walls:[]});
+  document.getElementById('np-name').value='';
+  closeAddPillarModal();
+  savePillars();
+  selectPillar(pid);
+}
+
+function deletePillar(pid){
+  if(pillars.length<=1){alert('At least one pillar is required.');return;}
+  if(!confirm('Delete this pillar and all its walls?'))return;
+  pillars=pillars.filter(p=>p.id!==pid);
+  if(activePillarId===pid){
+    activePillarId=pillars[0].id;
+    activeWallId=pillars[0].walls[0]?.id||null;
+  }
+  savePillars();
+  renderPillarTabs();renderPillarDetail();renderWallContent();renderBoothSummary();
+}
+
+function renamePillar(pid,name){
+  const p=pillars.find(x=>x.id===pid);
+  if(p&&name.trim()){p.name=name.trim();savePillars();renderPillarTabs();renderBoothSummary();}
+}
+
+/* ── PILLAR DETAIL BAR + WALL TABS ── */
+function renderPillarDetail(){
+  const p=getActivePillar();
+  if(!p){document.getElementById('pillarDetail').innerHTML='';return;}
+  const wallCount=p.walls.length;
+  document.getElementById('pillarDetail').innerHTML=`
+    <div class="pillar-bar">
+      <div class="pillar-bar-left">
+        <div class="pillar-bar-icon"><i class="ti ti-box"></i></div>
+        <div>
+          <input class="pillar-name-input" type="text" value="${p.name}" onchange="renamePillar('${p.id}',this.value)" />
+          <div class="pillar-wall-count">${wallCount} wall${wallCount!==1?'s':''}</div>
+        </div>
+      </div>
+    </div>
+    <div class="wall-tabs-row" id="wallTabsRow"></div>
+    <div class="add-wall-form">
+      <label>Wall name</label>
+      <input type="text" id="newWallName" placeholder="e.g. Left wall" />
+      <label>Cols</label>
+      <select id="newWallCols"><option>2</option><option selected>3</option><option>4</option><option>5</option><option>6</option></select>
+      <label>Rows</label>
+      <select id="newWallRows"><option selected>1</option><option>2</option><option>3</option><option>4</option></select>
+      <button class="btn btn-primary" onclick="addWall()"><i class="ti ti-plus"></i> Add wall</button>
+    </div>`;
+  renderWallTabs();
+}
+
+function renderWallTabs(){
+  const p=getActivePillar();
+  if(!p)return;
+  const row=document.getElementById('wallTabsRow');
+  if(!row)return;
+  if(!p.walls.length){row.innerHTML=`<span style="font-size:13px;color:var(--text3)">No walls yet — add one below.</span>`;return;}
+  row.innerHTML=p.walls.map(w=>`
+    <button class="wall-tab${w.id===activeWallId?' active':''}" onclick="selectWall('${w.id}')">
+      ${w.name}
+      <span class="tab-del" onclick="event.stopPropagation();deleteWall('${w.id}')" title="Delete wall"><i class="ti ti-x"></i></span>
+    </button>`).join('');
+}
+
+function selectWall(wid){
+  activeWallId=wid;
+  renderWallTabs();
+  renderWallContent();
+}
+
+function addWall(){
+  const p=getActivePillar();
+  if(!p)return;
+  const name=document.getElementById('newWallName').value.trim();
+  if(!name)return;
+  const cols=parseInt(document.getElementById('newWallCols').value)||3;
+  const rows=parseInt(document.getElementById('newWallRows').value)||1;
+  const wid='w_'+Date.now();
+  const slots=[];
+  for(let i=0;i<cols*rows;i++)slots.push(emptySlot());
+  p.walls.push({id:wid,name,cols,rows,slots});
+  document.getElementById('newWallName').value='';
+  activeWallId=wid;
+  savePillars();
+  renderPillarDetail();
+  renderWallContent();
+  renderBoothSummary();
+}
+
+function deleteWall(wid){
+  const p=getActivePillar();
+  if(!p||p.walls.length<=1){alert('Each pillar needs at least one wall.');return;}
+  p.walls=p.walls.filter(w=>w.id!==wid);
+  if(activeWallId===wid)activeWallId=p.walls[0]?.id||null;
+  savePillars();
+  renderPillarDetail();
+  renderWallContent();
+  renderBoothSummary();
+}
+
+function renameWall(wid,name){
+  const p=getActivePillar();
+  const w=p?.walls.find(x=>x.id===wid);
+  if(w&&name.trim()){w.name=name.trim();savePillars();renderWallTabs();renderBoothSummary();}
+}
+
+function resizeWall(wid,prop,val){
+  const p=getActivePillar();
+  const w=p?.walls.find(x=>x.id===wid);
+  if(!w)return;
+  w[prop]=Math.max(1,Math.min(prop==='cols'?6:5,parseInt(val)||1));
+  padSlots(w);
+  savePillars();renderWallContent();renderBoothSummary();
+}
+
+/* ── WALL CONTENT ── */
+function renderWallContent(){
+  const w=getActiveWall();
+  if(!w){document.getElementById('wallContent').innerHTML='<div class="empty-state"><i class="ti ti-layout-board"></i>Select or add a wall to get started.</div>';return;}
+  padSlots(w);
+  let html=`<div class="booth-wrap">
+    <div class="booth-label">
+      <input class="wall-name-edit" type="text" value="${w.name}" onchange="renameWall('${w.id}',this.value)" />
+      <div class="size-controls">
+        <label>Cols</label>
+        <input type="number" min="1" max="6" value="${w.cols}" onchange="resizeWall('${w.id}','cols',this.value)" />
+        <label>Rows</label>
+        <input type="number" min="1" max="5" value="${w.rows}" onchange="resizeWall('${w.id}','rows',this.value)" />
+      </div>
+    </div>`;
+  for(let r=0;r<w.rows;r++){
+    html+=`<div class="wall-row" style="grid-template-columns:repeat(${w.cols},1fr)">`;
+    for(let c=0;c<w.cols;c++){
+      const idx=r*w.cols+c;
+      const s=w.slots[idx]||emptySlot();
+      const has=s.name&&s.cat!=='empty';
+      html+=`<div class="slot${has?' has-item':''} cat-${s.cat}" onclick="openSlotModal('${w.id}',${idx})">
+        <button class="slot-del" onclick="event.stopPropagation();clearSlot('${w.id}',${idx})" title="Clear"><i class="ti ti-x"></i></button>
+        ${has
+          ?`<div class="slot-status ${BSTATDOT[s.status]||'ss-todo'}"></div>
+             <div class="slot-name">${s.name}</div>
+             <div class="slot-cat">${BCATLABEL[s.cat]||''}</div>
+             ${s.note?`<div class="slot-note">${s.note}</div>`:''}`
+          :`<i class="ti ti-plus slot-empty-icon"></i><div class="slot-empty-text">Add item</div>`}
+      </div>`;
+    }
+    html+=`</div>`;
+  }
+  html+=`</div>`;
+  document.getElementById('wallContent').innerHTML=html;
+}
+
+/* ── SLOT MODAL ── */
+function openSlotModal(wid,idx){
+  _sWallId=wid;_sIdx=idx;
+  const p=getActivePillar();
+  const w=p?.walls.find(x=>x.id===wid);
+  const s=w?.slots[idx]||emptySlot();
+  document.getElementById('sm-name').value=s.name||'';
+  document.getElementById('sm-cat').value=s.cat||'product';
+  document.getElementById('sm-status').value=s.status||'todo';
+  document.getElementById('sm-note').value=s.note||'';
+  document.getElementById('slotModalTitle').textContent=`Edit slot — ${w?.name||''} [${idx+1}]`;
+  document.getElementById('slotModal').classList.add('open');
+}
+function closeSlotModal(){document.getElementById('slotModal').classList.remove('open');}
+
+function saveSlot(){
+  if(_sWallId===null)return;
+  const p=getActivePillar();
+  const w=p?.walls.find(x=>x.id===_sWallId);
+  if(!w)return;
+  w.slots[_sIdx]={
+    name:document.getElementById('sm-name').value.trim(),
+    cat:document.getElementById('sm-cat').value,
+    status:document.getElementById('sm-status').value,
+    note:document.getElementById('sm-note').value.trim(),
+  };
+  savePillars();closeSlotModal();renderWallContent();renderBoothSummary();
+}
+
+function clearSlot(wid,idx){
+  const p=getActivePillar();
+  const w=p?.walls.find(x=>x.id===wid);
+  if(w)w.slots[idx]=emptySlot();
+  savePillars();renderWallContent();renderBoothSummary();
+}
+
+/* ── SUMMARY ── */
+function renderBoothSummary(){
+  document.getElementById('boothSummary').innerHTML=`<div class="booth-summary-pillars">`+pillars.map(p=>{
+    const wallCols=p.walls.map(w=>{
+      const items=w.slots.filter(s=>s.name&&s.cat!=='empty');
+      return `<div class="bsum-wall-col">
+        <div class="bsum-wall-title">${w.name}</div>
+        ${items.length
+          ?items.map(s=>`<div class="bsum-item"><div class="bsum-dot" style="background:${BDOTCOLOR[s.cat]||'#aaa'}"></div>${s.name}</div>`).join('')
+          :`<div style="font-size:12px;color:var(--text3)">Empty</div>`}
+      </div>`;
+    }).join('');
+    return `<div class="bsum-pillar">
+      <div class="bsum-pillar-header"><i class="ti ti-box" style="font-size:14px"></i>${p.name} <span style="font-weight:400;opacity:.7">· ${p.walls.length} walls</span></div>
+      <div class="bsum-walls-grid">${wallCols}</div>
+    </div>`;
+  }).join('')+`</div>`;
+}
+
+/* ── INIT ── */
+calcDays();
+initApp();
+
+</script>
+</body>
+</html>
