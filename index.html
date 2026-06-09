@@ -156,7 +156,9 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
 .check-text.done{text-decoration:line-through;color:var(--text3)}
 .check-del{background:none;border:none;cursor:pointer;color:var(--text3);font-size:14px;padding:2px 4px;border-radius:4px;transition:all .15s}
 .check-del:hover{color:var(--red);background:var(--red-bg)}
-.drag-handle{cursor:grab;color:var(--text3);font-size:16px;padding:2px 4px;border-radius:4px;flex-shrink:0;line-height:1;display:flex;align-items:center;transition:color .15s}
+/* allow text selection everywhere except drag handle */
+.check-item-row{user-select:text;-webkit-user-select:text}
+.drag-handle{cursor:grab;color:var(--text3);font-size:16px;padding:2px 4px;border-radius:4px;flex-shrink:0;line-height:1;display:flex;align-items:center;transition:color .15s;user-select:none;-webkit-user-select:none}
 .drag-handle:active{cursor:grabbing}
 .drag-handle:hover{color:var(--text2);background:var(--surface2)}
 .check-item.dragging{opacity:0.35;background:var(--accent-bg)}
@@ -912,6 +914,7 @@ function initChecklistDrag(a){
   items.forEach(el=>{
     el.setAttribute('draggable','true');
     el.addEventListener('dragstart',e=>{
+      if(!e.target.closest('.drag-handle')){e.preventDefault();return;}
       if(e.target.closest('.check-item-comments')){e.preventDefault();return;}
       _dragSrcIdx=parseInt(el.dataset.idx);
       el.classList.add('dragging');
