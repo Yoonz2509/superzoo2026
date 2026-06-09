@@ -639,10 +639,21 @@ function startPolling() {
       assets = remoteAssets;
       assets.forEach(a => { if(!a.comments)a.comments=[]; if(!a.checks)a.checks=[]; });
       nextId = assets.reduce((m,a) => Math.max(m,a.id), 0) + 1;
-      renderGrid();
-      if (selectedId) {
+      const panelOpen = document.getElementById('detailPanel').classList.contains('open');
+      if (panelOpen && selectedId) {
+        const authorVal = document.getElementById('comment-author')?.value || '';
+        const textVal = document.getElementById('comment-text')?.value || '';
+        renderGrid();
         const a = assets.find(x => x.id === selectedId);
-        if (a) { renderChecklist(a); renderComments(a); updateProgressBar(a); }
+        if (a) {
+          renderChecklist(a);
+          renderComments(a);
+          updateProgressBar(a);
+          if (document.getElementById('comment-author')) document.getElementById('comment-author').value = authorVal;
+          if (document.getElementById('comment-text')) document.getElementById('comment-text').value = textVal;
+        }
+      } else {
+        renderGrid();
       }
       changed = true;
     }
@@ -728,6 +739,22 @@ function updateStats(){
   document.getElementById('st-todo').textContent=assets.filter(a=>a.status==='todo').length;
 }
 
+function refreshCard(id){
+  const a=assets.find(x=>x.id===id);
+  if(!a)return;
+  const pct=calcPct(a);
+  const fillCls=a.status==='done'?'fill-done':a.status==='wip'?'fill-wip':a.status==='review'?'fill-review':'fill-todo';
+  const card=document.querySelector(`#assetGrid .asset-card[data-id="${id}"]`);
+  if(!card)return;
+  card.querySelector('.status-pill').className=`status-pill s-${a.status}`;
+  card.querySelector('.status-pill').textContent=STATUS_LABEL[a.status];
+  card.querySelector('.asset-owner').innerHTML=`<i class="ti ti-user" style="font-size:11px"></i>${a.owner||'Unassigned'}`;
+  card.querySelector('.progress-meta span:last-child').textContent=pct+'%';
+  card.querySelector('.progress-fill').className=`progress-fill ${fillCls}`;
+  card.querySelector('.progress-fill').style.width=pct+'%';
+  updateStats();
+}
+
 function setFilter(f,btn){
   currentFilter=f;
   document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
@@ -746,7 +773,7 @@ function renderGrid(){
     const pct=calcPct(a);
     const fillCls=a.status==='done'?'fill-done':a.status==='wip'?'fill-wip':a.status==='review'?'fill-review':'fill-todo';
     const selCls=selectedId===a.id?' selected':'';
-    return `<div class="asset-card${selCls}" onclick="selectAsset(${a.id})">
+    return `<div class="asset-card${selCls}" data-id="${a.id}" onclick="selectAsset(${a.id})">
       <button class="asset-del-btn" onclick="event.stopPropagation();deleteAsset(${a.id})" title="Delete asset"><i class="ti ti-trash"></i></button>
       <div class="asset-top">
         <i class="ti ${CAT_ICON[a.cat]||'ti-box'} asset-icon"></i>
@@ -960,7 +987,7 @@ function setStatus(s){
     document.getElementById('btn-'+st).className='btn-status'+(a.status===st?' active-'+st:'');
   });
   autoSave();
-  renderGrid();
+  refreshCard(selectedId);
 }
 
 function autoSave(){
@@ -972,7 +999,7 @@ function autoSave(){
   a.link=document.getElementById('dp-link').value;
   a.notes=document.getElementById('dp-notes').value;
   saveAssets();
-  renderGrid();
+  refreshCard(selectedId);
 }
 
 function saveDetail(){
