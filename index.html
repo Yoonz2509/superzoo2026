@@ -111,8 +111,9 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
 .s-done{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border)}
 .s-wip{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-border)}
 .s-todo{background:var(--gray-bg);color:var(--text2);border:1px solid var(--gray-border)}
-.s-review{background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-border)}
-.asset-name{font-size:13px;font-weight:600;color:var(--text);margin-bottom:4px;line-height:1.4;padding-right:20px}
+.asset-name{font-size:13px;font-weight:600;color:var(--text);margin-bottom:4px;line-height:1.4;padding-right:20px;cursor:text;border-radius:6px}
+.asset-name:hover{background:var(--surface2)}
+.asset-name-input{width:100%;font:inherit;font-weight:600;color:var(--text);border:1px solid var(--accent-border);border-radius:6px;background:#fff;padding:3px 6px;outline:none;box-shadow:0 0 0 2px var(--accent-bg)}
 .asset-owner{font-size:12px;color:var(--text3);display:flex;align-items:center;gap:4px}
 .progress-wrap{margin-top:10px}
 .progress-meta{display:flex;justify-content:space-between;font-size:11px;color:var(--text2);margin-bottom:5px;font-weight:500}
@@ -120,20 +121,20 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
 .progress-fill{height:100%;border-radius:3px;transition:width .4s}
 .fill-done{background:var(--green)}
 .fill-wip{background:var(--amber)}
-.fill-review{background:var(--blue)}
 .fill-todo{background:#c4c9d4}
 
 /* DETAIL PANEL */
 .detail-panel{display:none;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-bottom:1.5rem;box-shadow:var(--shadow-md)}
 .detail-panel.open{display:block}
 .dp-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:10px}
-.dp-title{font-size:16px;font-weight:600;color:var(--text)}
+.dp-title{font-size:16px;font-weight:600;color:var(--text);cursor:text;border-radius:6px;padding:2px 4px}
+.dp-title:hover{background:var(--surface2)}
+.dp-title-input{font:inherit;font-weight:600;color:var(--text);border:1px solid var(--accent-border);border-radius:6px;background:#fff;padding:3px 6px;outline:none;box-shadow:0 0 0 2px var(--accent-bg);min-width:220px}
 .dp-status-btns{display:flex;gap:5px;flex-wrap:wrap}
 .btn-status{font-size:12px;font-weight:500;padding:5px 12px;border-radius:20px;border:1px solid var(--border);background:none;color:var(--text2);cursor:pointer;transition:all .15s;font-family:inherit}
 .btn-status:hover{background:var(--surface2)}
 .active-todo{background:var(--gray-bg)!important;color:var(--text2)!important;border-color:var(--gray-border)!important}
 .active-wip{background:var(--amber-bg)!important;color:var(--amber)!important;border-color:var(--amber-border)!important}
-.active-review{background:var(--blue-bg)!important;color:var(--blue)!important;border-color:var(--blue-border)!important}
 .active-done{background:var(--green-bg)!important;color:var(--green)!important;border-color:var(--green-border)!important}
 .dp-fields{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1.25rem}
 .dp-field label{font-size:12px;font-weight:600;color:var(--text2);display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.04em}
@@ -401,7 +402,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
     <div class="stat-card"><div class="stat-val" id="st-total" style="color:var(--text)">0</div><div class="stat-lbl">Total assets</div></div>
     <div class="stat-card"><div class="stat-val" id="st-done" style="color:var(--green)">0</div><div class="stat-lbl">Done</div></div>
     <div class="stat-card"><div class="stat-val" id="st-wip" style="color:var(--amber)">0</div><div class="stat-lbl">In progress</div></div>
-    <div class="stat-card"><div class="stat-val" id="st-review" style="color:var(--blue)">0</div><div class="stat-lbl">In review</div></div>
     <div class="stat-card"><div class="stat-val" id="st-todo" style="color:var(--text3)">0</div><div class="stat-lbl">Not started</div></div>
   </div>
 
@@ -412,7 +412,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
         <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
         <button class="filter-btn" onclick="setFilter('done',this)">Done</button>
         <button class="filter-btn" onclick="setFilter('wip',this)">In progress</button>
-        <button class="filter-btn" onclick="setFilter('review',this)">In review</button>
         <button class="filter-btn" onclick="setFilter('todo',this)">Not started</button>
       </div>
       <button class="btn" onclick="openAddModal()"><i class="ti ti-plus"></i> Add asset</button>
@@ -423,12 +422,11 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
 
   <div class="detail-panel" id="detailPanel">
     <div class="dp-header">
-      <span class="dp-title" id="dp-name">—</span>
+      <span class="dp-title" id="dp-name" title="Double-click to rename" ondblclick="startAssetNameEdit(event,selectedId,this)">—</span>
       <div style="display:flex;gap:8px;align-items:center">
         <div class="dp-status-btns">
           <button class="btn-status" id="btn-todo" onclick="setStatus('todo')">Not started</button>
           <button class="btn-status" id="btn-wip" onclick="setStatus('wip')">In progress</button>
-          <button class="btn-status" id="btn-review" onclick="setStatus('review')">In review</button>
           <button class="btn-status" id="btn-done" onclick="setStatus('done')">Done</button>
         </div>
         <button class="btn btn-danger" onclick="deleteSelectedAsset()" style="font-size:12px;padding:5px 10px"><i class="ti ti-trash"></i> Delete</button>
@@ -550,7 +548,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
       <select id="new-status">
         <option value="todo">Not started</option>
         <option value="wip">In progress</option>
-        <option value="review">In review</option>
         <option value="done">Done</option>
       </select>
     </div>
@@ -745,7 +742,7 @@ async function initApp() {
 /* ════════ ASSET TRACKER ════════ */
 const CAT_ICON={print:'ti-file-text',digital:'ti-device-tv',booth:'ti-layout-board',apparel:'ti-shirt',logistics:'ti-truck',other:'ti-box'};
 const CAT_LABEL={print:'Print',digital:'Digital',booth:'Booth',apparel:'Apparel',logistics:'Logistics',other:'Other'};
-const STATUS_LABEL={done:'Done',wip:'In progress',review:'In review',todo:'Not started'};
+const STATUS_LABEL={done:'Done',wip:'In progress',todo:'Not started'};
 
 const DEFAULT_ASSETS=[
   {id:1,name:'2026 Catalog',cat:'print',owner:'',status:'todo',due:'',link:'',notes:'',checks:[],comments:[]},
@@ -766,15 +763,21 @@ let selectedId=null;
 let currentFilter='all';
 
 function calcPct(a){
+  if(a.status==='review')a.status='wip';
   if(!a.checks||!a.checks.length)return 0;
   return Math.round(a.checks.filter(c=>c.done).length/a.checks.length*100);
 }
 
+function normalizeAssetStatuses(){
+  assets.forEach(a=>{if(a.status==='review')a.status='wip';});
+  if(currentFilter==='review')currentFilter='all';
+}
+
 function updateStats(){
+  normalizeAssetStatuses();
   document.getElementById('st-total').textContent=assets.length;
   document.getElementById('st-done').textContent=assets.filter(a=>a.status==='done').length;
   document.getElementById('st-wip').textContent=assets.filter(a=>a.status==='wip').length;
-  document.getElementById('st-review').textContent=assets.filter(a=>a.status==='review').length;
   document.getElementById('st-todo').textContent=assets.filter(a=>a.status==='todo').length;
 }
 
@@ -782,7 +785,7 @@ function refreshCard(id){
   const a=assets.find(x=>x.id===id);
   if(!a)return;
   const pct=calcPct(a);
-  const fillCls=a.status==='done'?'fill-done':a.status==='wip'?'fill-wip':a.status==='review'?'fill-review':'fill-todo';
+  const fillCls=a.status==='done'?'fill-done':a.status==='wip'?'fill-wip':'fill-todo';
   const card=document.querySelector(`#assetGrid .asset-card[data-id="${id}"]`);
   if(!card)return;
   card.querySelector('.status-pill').className=`status-pill s-${a.status}`;
@@ -795,6 +798,7 @@ function refreshCard(id){
 }
 
 function setFilter(f,btn){
+  if(f==='review')f='all';
   currentFilter=f;
   document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
@@ -802,6 +806,7 @@ function setFilter(f,btn){
 }
 
 function renderGrid(){
+  normalizeAssetStatuses();
   const grid=document.getElementById('assetGrid');
   const list=currentFilter==='all'?assets:assets.filter(a=>a.status===currentFilter);
   if(!list.length){
@@ -810,7 +815,7 @@ function renderGrid(){
   }
   grid.innerHTML=list.map(a=>{
     const pct=calcPct(a);
-    const fillCls=a.status==='done'?'fill-done':a.status==='wip'?'fill-wip':a.status==='review'?'fill-review':'fill-todo';
+    const fillCls=a.status==='done'?'fill-done':a.status==='wip'?'fill-wip':'fill-todo';
     const selCls=selectedId===a.id?' selected':'';
     return `<div class="asset-card${selCls}" data-id="${a.id}" onclick="selectAsset(${a.id})">
       <button class="asset-del-btn" onclick="event.stopPropagation();deleteAsset(${a.id})" title="Delete asset"><i class="ti ti-trash"></i></button>
@@ -818,7 +823,7 @@ function renderGrid(){
         <i class="ti ${CAT_ICON[a.cat]||'ti-box'} asset-icon"></i>
         <span class="status-pill s-${a.status}">${STATUS_LABEL[a.status]}</span>
       </div>
-      <div class="asset-name">${a.name}</div>
+      <div class="asset-name" title="Double-click to rename" ondblclick="startAssetNameEdit(event,${a.id},this)">${a.name}</div>
       <div class="asset-owner"><i class="ti ti-user" style="font-size:11px"></i>${a.owner||'Unassigned'}</div>
       <div class="progress-wrap">
         <div class="progress-meta"><span>${CAT_LABEL[a.cat]}</span><span style="font-weight:700;color:var(--accent)">${pct}%</span></div>
@@ -827,6 +832,38 @@ function renderGrid(){
     </div>`;
   }).join('');
   updateStats();
+}
+
+function startAssetNameEdit(event,id,el){
+  event.stopPropagation();
+  const a=assets.find(x=>x.id===id);
+  if(!a||el.querySelector('input'))return;
+  const original=a.name||'';
+  let cancelled=false;
+  const attrSafe=original.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+  const inputClass=el.id==='dp-name'?'dp-title-input':'asset-name-input';
+  el.innerHTML=`<input class="${inputClass}" type="text" value="${attrSafe}" />`;
+  const input=el.querySelector('input');
+  input.focus();
+  input.select();
+  input.onclick=e=>e.stopPropagation();
+  input.ondblclick=e=>e.stopPropagation();
+  const finish=()=>{
+    if(cancelled)return;
+    const next=input.value.trim();
+    if(next&&next!==a.name){
+      a.name=next;
+      if(selectedId===id)document.getElementById('dp-name').textContent=next;
+      saveAssets();
+    }
+    if(el.id==='dp-name')el.textContent=a.name;
+    renderGrid();
+  };
+  input.onblur=finish;
+  input.onkeydown=e=>{
+    if(e.key==='Enter')input.blur();
+    if(e.key==='Escape'){cancelled=true;renderGrid();}
+  };
 }
 
 function selectAsset(id){
@@ -838,7 +875,7 @@ function selectAsset(id){
   document.getElementById('dp-due').value=a.due||'';
   document.getElementById('dp-link').value=a.link||'';
   document.getElementById('dp-notes').value=a.notes||'';
-  ['todo','wip','review','done'].forEach(s=>{
+  ['todo','wip','done'].forEach(s=>{
     document.getElementById('btn-'+s).className='btn-status'+(a.status===s?' active-'+s:'');
   });
   renderChecklist(a);
@@ -991,7 +1028,7 @@ function toggleCheck(aid,i){
   else if(a.checks.some(c=>c.done)) a.status='wip';
   renderChecklist(a);
   updateProgressBar(a);
-  ['todo','wip','review','done'].forEach(s=>{
+  ['todo','wip','done'].forEach(s=>{
     document.getElementById('btn-'+s).className='btn-status'+(a.status===s?' active-'+s:'');
   });
   autoSave();
@@ -1023,7 +1060,7 @@ function setStatus(s){
   const a=assets.find(x=>x.id===selectedId);
   if(!a)return;
   a.status=s;
-  ['todo','wip','review','done'].forEach(st=>{
+  ['todo','wip','done'].forEach(st=>{
     document.getElementById('btn-'+st).className='btn-status'+(a.status===st?' active-'+st:'');
   });
   autoSave();
